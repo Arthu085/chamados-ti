@@ -55,7 +55,7 @@
         <div class="col-md-6">
             <label for="state" class="form-label">Estado</label>
             <select class="form-select" id="state" name="state" required>
-                <option selected disabled value="">Selecione...</option>
+                <option selected disabled value="">Selecione seu estado</option>
             </select>
             <div class="invalid-feedback">
                 Por favor, selecione um estado.
@@ -65,7 +65,7 @@
         <div class="col-md-6">
             <label for="city" class="form-label">Cidade</label>
             <select class="form-select" id="city" name="city" required>
-                <option selected disabled value="">Selecione...</option>
+                <option selected disabled value="">Selecione sua cidade</option>
             </select>
             <div class="invalid-feedback">
                 Por favor, selecione uma cidade.
