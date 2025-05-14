@@ -8,7 +8,7 @@ CREATE TABLE users (
     whatsapp_number VARCHAR(20) NOT NULL,
     password VARCHAR(255) NOT NULL,
     city VARCHAR(100) NOT NULL,
-    state VARCHAR(20) NOT NULL,
+    state VARCHAR(3) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -49,6 +49,3 @@ CREATE TABLE ticket_history (
     FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-
-
-
