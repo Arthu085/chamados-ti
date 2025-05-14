@@ -65,3 +65,23 @@ $(document).ready(function () {
 		);
 	});
 });
+
+// $(document).ready(function () {
+// 	$("form").on("submit", function (e) {
+// 		const birthDate = new Date($("#birth_date").val());
+// 		const today = new Date();
+
+// 		const age = today.getFullYear() - birthDate.getFullYear();
+// 		const m = today.getMonth() - birthDate.getMonth();
+// 		const isUnder18 =
+// 			m < 0 || (m === 0 && today.getDate() < birthDate.getDate());
+
+// 		if (age < 18 || (age === 18 && isUnder18)) {
+// 			e.preventDefault(); // Impede envio do formulário
+// 			alert("Você precisa ter pelo menos 18 anos para se cadastrar.");
+// 			$("#birth_date").addClass("is-invalid");
+// 		} else {
+// 			$("#birth_date").removeClass("is-invalid");
+// 		}
+// 	});
+// });
