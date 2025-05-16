@@ -1,8 +1,8 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/toast.php'; ?>
 
-<div class="container py-3" style="max-width: 800px;">
-    <h2 class="text-center mb-4">Cadastro de Usuário</h2>
+<main class="container py-3" style="max-width: 800px;">
+    <h2 class="text-center mb-4">Cadastrar</h2>
 
     <form action="../controllers/registerController.php" method="POST" class="row g-3 needs-validation" novalidate>
         <div class="col-md-6">
@@ -111,6 +111,6 @@
         </div>
     </form>
     <p class="mt-2">Já possui uma conta? <a href="login.php">Entrar</a></p>
-</div>
+</main>
 
 <?php include 'includes/footer.php'; ?>
