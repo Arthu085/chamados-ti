@@ -6,10 +6,48 @@ $user = checkAuth();
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/toast.php'; ?>
 
-<main class="container-fluid">
-    <?php include 'includes/sidebar.php'; ?>
-    <h2 class="text-start mb-4">Olá, <?= htmlspecialchars($user['name']) ?></h2>
+<button class="btn btn-outline-dark d-lg-none m-2" type="button" data-bs-toggle="offcanvas"
+    data-bs-target="#sidebarMenu">
+    <img src="/CHAMADOS-TI/assets/img/burger-menu-svgrepo-com.svg" width="24" class="menu-icon" alt="Menu">
+</button>
 
+<main class="container-fluid">
+    <div class="row">
+        <?php include 'includes/sidebar.php'; ?>
+
+        <div class="col-lg-10 ms-auto p-4">
+            <h2>Olá, <?= htmlspecialchars($user['name']) ?> <?= htmlspecialchars($user['lastname']) ?>!</h2>
+            <p>Bem-vindo ao sistema de chamados.</p>
+            <div class="d-flex gap-3 mb-5">
+                <div class="card border-secondary" style="max-width: 300px;">
+                    <div class="card-header">
+                        Chamados abertos
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">0</h5>
+                    </div>
+                </div>
+                <div class="card border-secondary" style="max-width: 300px;">
+                    <div class="card-header">
+                        Chamados finalizados
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">0</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-secondary">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Dashboard</span>
+                    <a href="#" class="btn btn-primary">Abrir chamado</a>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">0</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 </main>
 
 <?php include 'includes/footer.php'; ?>

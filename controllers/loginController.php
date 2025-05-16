@@ -39,6 +39,7 @@ if ($user && password_verify($password, $user['password'])) {
         'id' => $user['id'],
         'name' => $user['name'],
         'email' => $user['email'],
+        'lastname' => $user['last_name'],
     ];
     $_SESSION['toast'] = [
         'message' => 'Login realizado com sucesso!',
