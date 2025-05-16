@@ -3,3 +3,15 @@ select.form-select {
 	border: 1px solid #000000;
 	transition: border-color 0.3s ease-in-out;
 }
+
+.menu-icon {
+	transition: filter 0.3s ease;
+}
+
+.menu-icon:hover {
+	filter: invert(100%);
+}
+
+.side-bar-width {
+	width: 200px !important;
+}

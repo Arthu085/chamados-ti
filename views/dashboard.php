@@ -6,7 +6,9 @@ $user = checkAuth();
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/toast.php'; ?>
 
-<main>
+<main class="container-fluid">
+    <?php include 'includes/sidebar.php'; ?>
+    <h2 class="text-start mb-4">Olá, <?= htmlspecialchars($user['name']) ?></h2>
 
 </main>
 
