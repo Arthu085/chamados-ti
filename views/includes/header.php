@@ -13,6 +13,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Estilos globais -->
+    <link rel="stylesheet" href="/CHAMADOS-TI/assets/css/global.css">
+
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="/CHAMADOS-TI/assets/css/custom.css">
 </head>
