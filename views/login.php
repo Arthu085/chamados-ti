@@ -23,18 +23,6 @@
         </div>
 
         <div class="col-12">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="termos" required>
-                <label class="form-check-label" for="termos">
-                    Concordo com os termos e condições
-                </label>
-                <div class="invalid-feedback">
-                    Você deve aceitar os termos antes de enviar.
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12">
             <button class="btn btn-success w-100" type="submit">Entrar</button>
         </div>
     </form>

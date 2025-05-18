@@ -41,13 +41,14 @@ $user = checkAuth();
                     <span>Dashboard</span>
                     <a href="#" class="btn btn-primary">Abrir chamado</a>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">0</h5>
-                </div>
+                <div id="tickets" class="card-body"></div>
             </div>
         </div>
     </div>
     </div>
+    </div>
 </main>
+
+<script src="/CHAMADOS-TI/assets/js/tickets/fetchTicketByUser.js"></script>
 
 <?php include 'includes/footer.php'; ?>

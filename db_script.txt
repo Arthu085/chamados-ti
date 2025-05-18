@@ -51,4 +51,4 @@ CREATE TABLE ticket_history (
 );
 
 ALTER TABLE tickets
-ADD COLUMN status ENUM('abertos', 'fechados') NOT NULL DEFAULT 'abertos';
+ADD COLUMN status ENUM('aberto', 'fechado') NOT NULL DEFAULT 'aberto';
