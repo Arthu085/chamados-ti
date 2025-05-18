@@ -15,9 +15,11 @@ $(document).ready(function () {
 						<div class="ticket-item d-flex justify-content-between align-items-center border rounded p-3 mb-2">
 							<span><strong>${ticket.description}</strong></span>
 							<span>Status: ${ticket.status}</span>
-							<div>
-							<button>teste</button>
-							<button>teste</button>
+							<div class="d-flex gap-3">
+							<button class="btn btn-info">Detalhes</button>
+							<button class="btn btn-success">Finalizar</button>
+							<button class="btn btn-primary">Editar</button>
+							<button class="btn btn-danger">Excluir</button>
 							</div>
 						</div>
 					`;

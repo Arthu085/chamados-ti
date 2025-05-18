@@ -13,7 +13,7 @@ function checkAuth()
             'message' => 'Sua sessão expirou por inatividade. Faça login novamente.',
             'type' => 'warning'
         ];
-        header("Location: login.php");
+        header("Location: /chamados-ti/views/login.php");
         exit();
     }
 
@@ -24,7 +24,7 @@ function checkAuth()
             'message' => 'Faça login para entrar na tela.',
             'type' => 'danger'
         ];
-        header("Location: login.php");
+        header("Location: /chamados-ti/views/login.php");
         exit();
     }
 
