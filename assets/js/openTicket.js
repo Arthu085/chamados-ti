@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	// Inicializa Summernote com altura de 200px
 	$(".summernote").summernote({
-		height: 200,
+		height: 50,
 	});
 
 	// Botão para adicionar novo contato
