@@ -24,7 +24,7 @@ $user = checkAuth();
                         Chamados abertos
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">0</h5>
+                        <h5 id="count-open" class="card-title"></h5>
                     </div>
                 </div>
                 <div class="card border-secondary" style="max-width: 300px;">

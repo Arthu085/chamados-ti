@@ -29,3 +29,17 @@ $(document).ready(function () {
 		}
 	);
 });
+
+$(document).ready(function () {
+	$.get(
+		"/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/open",
+		function (data) {
+			const container = $("#count-open");
+			if (data.erro) {
+				container.html(data.erro);
+			} else {
+				container.html(data.total);
+			}
+		}
+	);
+});
