@@ -39,7 +39,7 @@ $user = checkAuth();
             <div class="card border-secondary">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Dashboard</span>
-                    <a href="tickets/new.php" class="btn btn-primary">Abrir chamado</a>
+                    <a href="tickets/new.php" title="Novo chamado" class="btn btn-primary">Abrir chamado</a>
                 </div>
                 <div id="tickets" class="card-body"></div>
             </div>

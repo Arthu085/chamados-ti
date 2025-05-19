@@ -30,3 +30,15 @@ function checkAuth()
 
     return $_SESSION['user'];
 }
+
+function logout()
+{
+    session_unset();
+    session_destroy();
+    header("Location: /chamados-ti/views/login.php");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+    logout();
+}

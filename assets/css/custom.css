@@ -20,3 +20,19 @@ select.form-select {
 	background-color: rgba(255, 255, 255, 0.1); /* leve destaque */
 	border-radius: 0.375rem; /* opcional: cantos arredondados */
 }
+
+.logout-icon {
+	filter: invert(1);
+	width: 20%;
+	height: 20%;
+}
+
+.logout-button {
+	margin-top: 22em;
+}
+
+.logout-icon-mini {
+	filter: invert(1);
+	width: 30%;
+	height: 30%;
+}

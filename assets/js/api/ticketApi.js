@@ -16,10 +16,10 @@ $(document).ready(function () {
 							<span><strong>${ticket.description}</strong></span>
 							<span>Status: ${ticket.status}</span>
 							<div class="d-flex gap-3">
-							<button class="btn btn-info">Detalhes</button>
-							<button class="btn btn-success">Finalizar</button>
-							<button class="btn btn-primary">Editar</button>
-							<button class="btn btn-danger">Excluir</button>
+							<button title="Detalhes do chamado" class="btn btn-info">Detalhes</button>
+							<button title="Finalizar chamado" class="btn btn-success">Finalizar</button>
+							<button title="Editar chamado" class="btn btn-primary">Editar</button>
+							<button title="Excluir chamado" class="btn btn-danger">Excluir</button>
 							</div>
 						</div>
 					`;
