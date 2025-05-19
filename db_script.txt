@@ -9,7 +9,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     city VARCHAR(100) NOT NULL,
     state VARCHAR(3) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
 
 CREATE TABLE tickets (
@@ -50,5 +50,9 @@ CREATE TABLE ticket_history (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-ALTER TABLE tickets
-ADD COLUMN status ENUM('aberto', 'fechado') NOT NULL DEFAULT 'aberto';
+
+ALTER TABLE tickets 
+ADD COLUMN status ENUM('aberto', 'finalizado') NOT NULL DEFAULT 'aberto';
+
+ALTER TABLE ticket_history 
+ADD COLUMN message text NOT NULL 
