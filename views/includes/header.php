@@ -19,6 +19,9 @@
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="/CHAMADOS-TI/assets/css/custom.css">
 
+    <!-- Summernote CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.css" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="/CHAMADOS-TI/assets/js/validation.js"></script>
