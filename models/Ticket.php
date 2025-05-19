@@ -24,4 +24,11 @@ class Ticket
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function fetchNumberOfCloseTicketsByUser($userId)
+    {
+        $stmt = $this->pdo->prepare('SELECT COUNT(*) as total FROM tickets WHERE status = "finalizado" AND user_id = :user_id');
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

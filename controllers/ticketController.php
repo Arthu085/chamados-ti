@@ -29,6 +29,11 @@ try {
             echo json_encode($ticketsCount);
             break;
 
+        case 'tickets/fetch/close':
+            $ticketsCount = $ticketModel->fetchNumberOfCloseTicketsByUser($_SESSION['user']['id']);
+            echo json_encode($ticketsCount);
+            break;
+
         default:
             echo json_encode(['erro' => 'Rota inválida']);
     }

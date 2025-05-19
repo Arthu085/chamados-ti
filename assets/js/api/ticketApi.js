@@ -43,3 +43,17 @@ $(document).ready(function () {
 		}
 	);
 });
+
+$(document).ready(function () {
+	$.get(
+		"/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/close",
+		function (data) {
+			const container = $("#count-close");
+			if (data.erro) {
+				container.html(data.erro);
+			} else {
+				container.html(data.total);
+			}
+		}
+	);
+});

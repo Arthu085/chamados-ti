@@ -32,7 +32,7 @@ $user = checkAuth();
                         Chamados finalizados
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">0</h5>
+                        <h5 id="count-close" class="card-title"></h5>
                     </div>
                 </div>
             </div>
