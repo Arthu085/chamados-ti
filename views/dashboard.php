@@ -49,6 +49,6 @@ $user = checkAuth();
     </div>
 </main>
 
-<script src="/CHAMADOS-TI/assets/js/tickets/fetchTicketByUser.js"></script>
+<script src="/CHAMADOS-TI/assets/js/api/ticketApi.js"></script>
 
 <?php include 'includes/footer.php'; ?>

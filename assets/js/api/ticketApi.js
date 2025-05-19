@@ -1,6 +1,6 @@
 $(document).ready(function () {
 	$.get(
-		"/CHAMADOS-TI/controllers/tickets/fetchTicketByUserController.php",
+		"/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user",
 		function (data) {
 			const container = $("#tickets");
 
