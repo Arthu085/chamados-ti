@@ -1,4 +1,5 @@
 import { sendTicket } from "./api/ticketApi.js";
+import { showToast } from "./util/toast.js";
 
 $(document).ready(function () {
 	// Inicializa Summernote
@@ -68,13 +69,13 @@ $(document).ready(function () {
 		sendTicket(data)
 			.then((res) => {
 				const json = typeof res === "string" ? JSON.parse(res) : res;
-				if (json.success) {
-					window.location.reload();
-				} else {
-					window.location.reload();
+				if (json.toast) {
+					localStorage.setItem("pendingToast", JSON.stringify(json.toast));
+					location.reload();
 				}
 			})
 			.catch((err) => {
+				showToast("Erro no envio do chamado.", "danger");
 				console.error("Erro no envio do chamado:", err);
 			});
 	});

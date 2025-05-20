@@ -23,7 +23,6 @@ function checkAuth()
             ]);
             exit();
         } else {
-            session_start();
             $_SESSION['toast'] = [
                 'message' => 'Sua sessão expirou por inatividade. Faça login novamente.',
                 'type' => 'warning'

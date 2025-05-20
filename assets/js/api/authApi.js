@@ -1,26 +1,43 @@
-import { showToast } from "/chamados-ti/assets/js/toast.js";
+import { showToast } from "../util/toast.js";
 
+// Login AJAX
 $("#loginForm").on("submit", function (e) {
 	e.preventDefault();
+	const formData = $(this).serialize() + "&action=login";
 
-	$.ajax({
-		url: "../controllers/AuthController.php",
-		type: "POST",
-		data: $(this).serialize(),
-		dataType: "json",
-		success: function (response) {
-			if (response.toast) {
-				showToast(response.toast.message, response.toast.type);
+	$.post(
+		"/CHAMADOS-TI/controllers/authController.php",
+		formData,
+		function (res) {
+			if (res.toast) {
+				showToast(res.toast.message, res.toast.type);
+				localStorage.setItem("pendingToast", JSON.stringify(res.toast));
 			}
-
-			if (response.success && response.redirect) {
-				setTimeout(() => {
-					window.location.href = response.redirect;
-				}, 500);
+			if (res.redirect) {
+				window.location.href = res.redirect; // redireciona imediatamente
 			}
 		},
-		error: function () {
-			showToast("Erro no servidor.", "danger");
+		"json"
+	);
+});
+
+// Registro AJAX
+$("#registerForm").on("submit", function (e) {
+	e.preventDefault();
+	const formData = $(this).serialize() + "&action=register";
+
+	$.post(
+		"/CHAMADOS-TI/controllers/authController.php",
+		formData,
+		function (res) {
+			if (res.toast) {
+				showToast(res.toast.message, res.toast.type);
+				localStorage.setItem("pendingToast", JSON.stringify(res.toast));
+			}
+			if (res.redirect) {
+				window.location.href = res.redirect;
+			}
 		},
-	});
+		"json"
+	);
 });

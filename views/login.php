@@ -1,3 +1,11 @@
+<?php
+session_start();
+session_unset();
+session_destroy();
+
+session_start();
+?>
+
 <?php include 'includes/header.php'; ?>
 
 <main class="container py-3" style="max-width: 400px;">
@@ -27,6 +35,6 @@
     <p class="mt-2">Não possui uma conta? <a href="register.php">Cadastrar</a></p>
 </main>
 
-<script type="module" src="../assets/js/api/authApi.js"></script>
+<script type="module" src="/chamados-ti/assets/js/api/authApi.js"></script>
 
 <?php include 'includes/footer.php'; ?>
