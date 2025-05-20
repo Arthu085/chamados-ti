@@ -4,7 +4,6 @@ $user = checkAuth();
 ?>
 
 <?php include 'includes/header.php'; ?>
-<?php include 'includes/toast.php'; ?>
 
 <button class="btn btn-outline-dark d-lg-none m-2" type="button" data-bs-toggle="offcanvas"
     data-bs-target="#sidebarMenu">

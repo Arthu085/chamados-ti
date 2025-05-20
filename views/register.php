@@ -1,5 +1,4 @@
 <?php include 'includes/header.php'; ?>
-<?php include 'includes/toast.php'; ?>
 
 <main class="container py-3" style="max-width: 800px;">
     <h2 class="text-center mb-4">Cadastrar</h2>
