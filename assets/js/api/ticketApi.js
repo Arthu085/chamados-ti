@@ -57,3 +57,12 @@ $(document).ready(function () {
 		}
 	);
 });
+
+export function sendTicket(data) {
+	return $.ajax({
+		url: "/CHAMADOS-TI/controllers/ticketController.php/tickets/create",
+		type: "POST",
+		data: JSON.stringify(data),
+		contentType: "application/json",
+	});
+}

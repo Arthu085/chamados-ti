@@ -17,51 +17,48 @@ $user = checkAuth();
 
         <div class="col-lg-10 ms-auto p-4">
             <h2>Abrir novo chamado</h2>
-            <form id="formChamado" class="row g-3 needs-validation" novalidate>
+            <form id="ticketForm" class="row g-3 needs-validation" novalidate>
                 <div class="col-md-6">
-                    <label for="descricao" class="form-label">Descrição</label>
-                    <textarea id="descricao" class="form-control summernote" required></textarea>
+                    <label for="description" class="form-label">Descrição</label>
+                    <textarea id="description" class="form-control summernote" required></textarea>
                     <div class="invalid-feedback">
                         Por favor, digite a descrição.
                     </div>
                 </div>
 
                 <div class="col-md-6">
-                    <label for="tipo" class="form-label">Tipo de Incidente</label>
-                    <input type="text" class="form-control" id="tipo" placeholder="Ex: Problema de Rede" required>
+                    <label for="type" class="form-label">Tipo de Incidente</label>
+                    <input type="text" class="form-control" id="type" placeholder="Ex: Problema de Rede" required>
                     <div class="invalid-feedback">
                         Por favor, digite o tipo de incidente.
                     </div>
                 </div>
 
                 <div class="col-md-6">
-                    <label for="anexos" class="form-label">Anexos</label>
-                    <input type="file" class="form-control" id="anexos" name="anexos" multiple required>
+                    <label for="attachments" class="form-label">Anexos</label>
+                    <input type="file" class="form-control" id="attachments" multiple required>
                     <div class="invalid-feedback">
                         Por favor selecione pelo menos um anexo.
                     </div>
                 </div>
 
-                <div id="contatos-container" class="col-md-12">
+                <div id="contacts-container" class="col-md-12">
                     <label class="form-label">Contatos</label>
-                    <div class="row mb-2 contato-item">
+                    <div class="row mb-2 item-contact">
                         <div class="col-md-3">
-                            <input type="text" class="form-control nome-contato" placeholder="Nome" required>
+                            <input type="text" class="form-control contact-name" placeholder="Nome" required>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control telefone-contato" placeholder="Telefone" required>
+                            <input type="text" class="form-control contact-phone" id="phone_number"
+                                placeholder="Telefone" required>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" class="form-control observacao-contato" placeholder="Observação"
-                                required>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-danger btn-remover-contato">Remover</button>
+                            <input type="text" class="form-control contact-note" placeholder="Observação" required>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12"><button type="button" id="add-contato"
+                <div class="col-12"><button type="button" id="contact-add"
                         class="btn btn-outline-primary mt-2">Adicionar contato</button>
                 </div>
 
@@ -73,6 +70,6 @@ $user = checkAuth();
     </div>
 </main>
 
-<script src="/CHAMADOS-TI/assets/js/openTicket.js"></script>
+<script type="module" src="/CHAMADOS-TI/assets/js/openTicket.js"></script>
 
 <?php include '../includes/footer.php'; ?>

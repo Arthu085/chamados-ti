@@ -1,89 +1,85 @@
+import { sendTicket } from "./api/ticketApi.js";
+
 $(document).ready(function () {
-	// Inicializa Summernote com altura de 200px
+	// Inicializa Summernote
 	$(".summernote").summernote({
 		height: 50,
 	});
 
-	// Botão para adicionar novo contato
-	$("#add-contato").click(function () {
-		$("#contatos-container").append(`
-            <div class="row mb-2 contato-item">
+	// Adicionar novo contato
+	$("#contact-add").click(function () {
+		$("#contacts-container").append(`
+            <div class="row mb-2 item-contact">
                 <div class="col-md-3">
-                    <input type="text" class="form-control nome-contato" placeholder="Nome" required>
+                    <input type="text" class="form-control contact-name" placeholder="Nome" required>
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="form-control telefone-contato" placeholder="Telefone" required>
+                    <input type="text" class="form-control contact-phone phone_number" placeholder="Telefone" required>
                 </div>
                 <div class="col-md-4">
-                    <input type="text" class="form-control observacao-contato" placeholder="Observação" required>
+                    <input type="text" class="form-control contact-note" placeholder="Observação" required>
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-danger btn-remover-contato">Remover</button>
+                    <button type="button" class="btn btn-danger btn-remove-contact">Remover</button>
                 </div>
             </div>
         `);
 	});
 
-	// Remove contato ao clicar no botão remover
-	$(document).on("click", ".btn-remover-contato", function () {
-		$(this).closest(".contato-item").remove();
+	// Remover contato
+	$(document).on("click", ".btn-remove-contact", function () {
+		$(this).closest(".item-contact").remove();
 	});
 
-	// Evento submit do formulário
-	$("#formChamado").on("submit", async function (e) {
+	// Enviar formulário
+	$("#ticketForm").on("submit", async function (e) {
 		e.preventDefault();
 
-		const incident_type = $("#tipo").val();
-		const description = $("#descricao").summernote("code"); // pega conteúdo HTML do Summernote
-		const files = $("#anexos")[0].files;
-		const attachments = [];
+		const incident_type = $("#type").val();
+		const description = $("#description").summernote("code");
+		const files = $("#attachments")[0].files;
 
-		// Converte cada arquivo em base64
-		for (let i = 0; i < files.length; i++) {
-			const file = files[i];
-			const base64 = (await toBase64(file)).split(",")[1]; // pega só a parte base64, sem o prefixo
+		const contacts = $(".item-contact")
+			.map(function () {
+				return {
+					name: $(this).find(".contact-name").val(),
+					phone: $(this).find(".contact-phone").val(),
+					note: $(this).find(".contact-note").val(),
+				};
+			})
+			.get();
+
+		const attachments = [];
+		for (let file of files) {
+			const base64 = (await toBase64(file)).split(",")[1];
 			attachments.push({
 				file_name: file.name,
 				base64: base64,
 			});
 		}
 
-		// Recolhe todos os contatos adicionados
-		const contacts = [];
-		$(".contato-item").each(function () {
-			contacts.push({
-				name: $(this).find(".nome-contato").val(),
-				phone: $(this).find(".telefone-contato").val(),
-				note: $(this).find(".observacao-contato").val(),
-			});
-		});
-
-		// Monta o objeto final para enviar
 		const data = {
 			incident_type,
 			description,
-			attachments,
 			contacts,
+			attachments,
 		};
 
-		// Envia via AJAX para o backend
-		$.ajax({
-			url: "../api/abrir_chamado.php",
-			method: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(data),
-			success: function () {
-				alert("Chamado aberto com sucesso!");
-				window.location.href = "/CHAMADOS-TI/painel/chamados.php";
-			},
-			error: function (xhr) {
-				console.error(xhr.responseText);
-				alert("Erro ao abrir chamado.");
-			},
-		});
+		sendTicket(data)
+			.then((res) => {
+				const json = typeof res === "string" ? JSON.parse(res) : res;
+				if (json.success) {
+					window.location.reload();
+				} else {
+					window.location.reload();
+				}
+			})
+			.catch((err) => {
+				console.error("Erro no envio do chamado:", err);
+			});
 	});
 
-	// Função auxiliar para converter arquivo em base64
+	// Função auxiliar
 	function toBase64(file) {
 		return new Promise((resolve, reject) => {
 			const reader = new FileReader();
