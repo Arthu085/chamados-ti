@@ -1,7 +1,8 @@
 input.form-control,
-select.form-select {
-	border: 1px solid #000000;
-	transition: border-color 0.3s ease-in-out;
+select.form-select,
+textarea.form-control {
+	border: 1px solid #000000 !important;
+	transition: border-color 0.3s ease-in-out !important;
 }
 
 .menu-icon {
@@ -25,10 +26,6 @@ select.form-select {
 	filter: invert(1);
 	width: 20%;
 	height: 20%;
-}
-
-.logout-button {
-	margin-top: 22em;
 }
 
 .logout-icon-mini {
