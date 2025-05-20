@@ -1,10 +1,17 @@
+<?php
+session_start();
+session_unset();
+session_destroy();
+
+session_start();
+?>
+
 <?php include 'includes/header.php'; ?>
-<?php include 'includes/toast.php'; ?>
 
 <main class="container py-3" style="max-width: 800px;">
     <h2 class="text-center mb-4">Cadastrar</h2>
 
-    <form action="../controllers/registerController.php" method="POST" class="row g-3 needs-validation" novalidate>
+    <form id="registerForm" class="row g-3 needs-validation" novalidate>
         <div class="col-md-6">
             <label for="name" class="form-label">Nome</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Digite seu nome" required>
@@ -95,22 +102,12 @@
         </div>
 
         <div class="col-12">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="termos" required>
-                <label class="form-check-label" for="termos">
-                    Concordo com os termos e condições
-                </label>
-                <div class="invalid-feedback">
-                    Você deve aceitar os termos antes de enviar.
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12">
             <button class="btn btn-success w-100" type="submit">Cadastrar</button>
         </div>
     </form>
     <p class="mt-2">Já possui uma conta? <a href="login.php">Entrar</a></p>
 </main>
+
+<script type="module" src="/CHAMADOS-TI/assets/js/api/authApi.js"></script>
 
 <?php include 'includes/footer.php'; ?>

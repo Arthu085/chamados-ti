@@ -8,6 +8,22 @@
 <!-- Summernote -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js"></script>
 
+<!-- Toast -->
+<script type="module" src="/chamados-ti/assets/js/util/toast.js"></script>
+
+<script type="module">
+    import { showToast } from '/chamados-ti/assets/js/util/toast.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const pendingToastJSON = localStorage.getItem("pendingToast");
+        if (pendingToastJSON) {
+            const toast = JSON.parse(pendingToastJSON);
+            showToast(toast.message, toast.type);
+            localStorage.removeItem("pendingToast");
+        }
+    });
+</script>
+
 </body>
 
 </html>
