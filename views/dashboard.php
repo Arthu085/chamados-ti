@@ -4,6 +4,7 @@ $user = checkAuth();
 ?>
 
 <?php include 'includes/header.php'; ?>
+<?php include 'includes/modal.php'; ?>
 
 <button class="btn btn-outline-dark d-lg-none m-2" type="button" data-bs-toggle="offcanvas"
     data-bs-target="#sidebarMenu">
@@ -49,5 +50,6 @@ $user = checkAuth();
 </main>
 
 <script type="module" src="/CHAMADOS-TI/assets/js/api/ticketApi.js"></script>
+<script type="module" src="/CHAMADOS-TI/assets/js/views/deleteModal.js"></script>
 
 <?php include 'includes/footer.php'; ?>

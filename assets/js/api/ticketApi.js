@@ -19,7 +19,7 @@ $(document).ready(function () {
 							<button title="Detalhes do chamado" class="btn btn-info">Detalhes</button>
 							<button title="Finalizar chamado" class="btn btn-success">Finalizar</button>
 							<button title="Editar chamado" class="btn btn-primary">Editar</button>
-							<button title="Excluir chamado" class="btn btn-danger">Excluir</button>
+							<button title="Excluir chamado" class="btn btn-danger btn-delete" data-id="${ticket.id}">Excluir</button>
 							</div>
 						</div>
 					`;
