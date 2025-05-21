@@ -240,6 +240,31 @@ try {
             echo json_encode($tickets);
             break;
 
+        case 'tickets/edit/finish':
+            if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                $input = file_get_contents('php://input');
+                $data = json_decode($input, true);
+
+                $idTicket = $data['id'] ?? '';
+                $userId = $data['user_id'] ?? '';
+
+                if (empty($idTicket) || empty($userId)) {
+                    echo json_encode([
+                        'success' => false,
+                        'toast' => [
+                            'message' => 'ID do chamado ou usuário inválido.',
+                            'type' => 'warning'
+                        ]
+                    ]);
+                    exit;
+                }
+
+                $result = $ticketModel->finishTicket($idTicket, $userId);
+                echo json_encode($result);
+            }
+            break;
+
+
         default:
             echo json_encode(['erro' => 'Rota inválida']);
     }

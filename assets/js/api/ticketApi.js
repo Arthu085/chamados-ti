@@ -107,3 +107,21 @@ export async function fetchTicketDetails(id) {
 		`/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user/details?id=${id}`
 	);
 }
+
+export async function finishTicket(id, user_id) {
+	const response = await fetch(
+		"/CHAMADOS-TI/controllers/ticketController.php/tickets/edit/finish",
+		{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				id: id,
+				user_id: user_id,
+			}),
+		}
+	);
+
+	return await response.json();
+}
