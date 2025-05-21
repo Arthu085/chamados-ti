@@ -240,6 +240,89 @@ try {
             echo json_encode($tickets);
             break;
 
+        case 'tickets/edit/finish':
+            if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                $input = file_get_contents('php://input');
+                $data = json_decode($input, true);
+
+                $idTicket = $data['id'] ?? '';
+                $userId = $_SESSION['user']['id'] ?? null;
+
+                if (empty($idTicket) || empty($userId)) {
+                    echo json_encode([
+                        'success' => false,
+                        'toast' => [
+                            'message' => 'ID do chamado ou usuário inválido.',
+                            'type' => 'warning'
+                        ]
+                    ]);
+                    exit;
+                }
+
+                $result = $ticketModel->finishTicket($idTicket, $userId);
+
+                if (!$result['success']) {
+                    echo json_encode([
+                        'success' => false,
+                        'toast' => [
+                            'message' => 'Erro ao finalizar chamado.',
+                            'type' => 'danger'
+                        ]
+                    ]);
+                } else {
+                    echo json_encode([
+                        'success' => true,
+                        'toast' => [
+                            'message' => 'Chamado finalizado com sucesso!',
+                            'type' => 'success'
+                        ]
+                    ]);
+                }
+            }
+            break;
+
+        case 'tickets/edit/reopen':
+            if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                $input = file_get_contents('php://input');
+                $data = json_decode($input, true);
+
+                $idTicket = $data['id'] ?? '';
+                $userId = $_SESSION['user']['id'] ?? null;
+
+                if (empty($idTicket) || empty($userId)) {
+                    echo json_encode([
+                        'success' => false,
+                        'toast' => [
+                            'message' => 'ID do chamado ou usuário inválido.',
+                            'type' => 'warning'
+                        ]
+                    ]);
+                    exit;
+                }
+
+                $result = $ticketModel->reopenTicket($idTicket, $userId);
+
+                if (!$result['success']) {
+                    echo json_encode([
+                        'success' => false,
+                        'toast' => [
+                            'message' => 'Erro ao reabrir chamado.',
+                            'type' => 'danger'
+                        ]
+                    ]);
+                } else {
+                    echo json_encode([
+                        'success' => true,
+                        'toast' => [
+                            'message' => 'Chamado reaberto com sucesso!',
+                            'type' => 'success'
+                        ]
+                    ]);
+                }
+            }
+            break;
+
+
         default:
             echo json_encode(['erro' => 'Rota inválida']);
     }

@@ -153,4 +153,66 @@ class Ticket
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function finishTicket($idTicket, $userId)
+    {
+
+        $this->pdo->beginTransaction();
+
+        try {
+            $stmt = $this->pdo->prepare('UPDATE tickets SET status = "finalizado" WHERE id = :id');
+            $stmt->bindParam(':id', $idTicket, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $stmt = $this->pdo->prepare('INSERT INTO ticket_history (ticket_id, user_id, action, message) VALUES (:ticket_id, :user_id, "finalizacao", "finalizou o chamado")');
+            $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $this->pdo->commit();
+
+            return [
+                'success' => true,
+                'message' => 'Chamado finalizado com sucesso'
+            ];
+
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return [
+                'success' => false,
+                'error' => 'Erro ao finalizar o chamado: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function reopenTicket($idTicket, $userId)
+    {
+
+        $this->pdo->beginTransaction();
+
+        try {
+            $stmt = $this->pdo->prepare('UPDATE tickets SET status = "aberto" WHERE id = :id');
+            $stmt->bindParam(':id', $idTicket, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $stmt = $this->pdo->prepare('INSERT INTO ticket_history (ticket_id, user_id, action, message) VALUES (:ticket_id, :user_id, "reabertura", "reabriu o chamado")');
+            $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $this->pdo->commit();
+
+            return [
+                'success' => true,
+                'message' => 'Chamado reaberto com sucesso'
+            ];
+
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return [
+                'success' => false,
+                'error' => 'Erro ao reabrir o chamado: ' . $e->getMessage()
+            ];
+        }
+    }
+
 }

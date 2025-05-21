@@ -11,21 +11,42 @@ $(document).ready(function () {
 			} else {
 				let html = "";
 				data.forEach((ticket) => {
+					let actionButtons = `
+					<button title="Detalhes do chamado" class="btn btn-info btn-details" data-id="${ticket.id}">Detalhes</button>
+				`;
+					// Condição para exibir botão baseado no status
+					if (ticket.status === "aberto") {
+						actionButtons += `
+						<button title="Finalizar chamado" class="btn btn-success btn-finish" data-id="${ticket.id}">Finalizar</button>
+					`;
+					} else if (ticket.status === "finalizado") {
+						actionButtons += `
+						<button title="Reabrir chamado" class="btn btn-warning btn-reopen" data-id="${ticket.id}">Abrir</button>
+					`;
+					}
+
+					actionButtons += `
+					<button title="Editar chamado" class="btn btn-primary">Editar</button>
+					<button title="Excluir chamado" class="btn btn-danger btn-delete" data-id="${ticket.id}">Excluir</button>
+				`;
+
 					html += `
-						<div class="ticket-item d-flex justify-content-between align-items-center border rounded p-3 mb-2">
-						<div class="ticket-description" style="max-width: 250px; word-wrap: break-word;">
+					<div class="ticket-item d-flex align-items-center border rounded p-3 mb-2" style="gap: 15px;">
+						<div class="ticket-description" style="flex: 0 0 250px; white-space: normal !important; word-wrap: break-word; overflow-wrap: break-word; min-width: 0;">
 							<strong>${ticket.description}</strong>
 						</div>
-							<span>Status: ${ticket.status}</span>
-							<div class="d-flex gap-3">
-							<button title="Detalhes do chamado" class="btn btn-info btn-details" data-id="${ticket.id}">Detalhes</button>
-							<button title="Finalizar chamado" class="btn btn-success">Finalizar</button>
-							<button title="Editar chamado" class="btn btn-primary">Editar</button>
-							<button title="Excluir chamado" class="btn btn-danger btn-delete" data-id="${ticket.id}">Excluir</button>
-							</div>
+
+						<div class="ticket-status" style="flex: 0 0 130px; text-align: center;">
+							<span><strong>Status</strong>: ${ticket.status}</span>
 						</div>
-					`;
+
+						<div class="ticket-actions d-flex gap-3" style="flex-grow: 1; justify-content: flex-end;">
+							${actionButtons}
+						</div>
+					</div>
+				`;
 				});
+
 				container.html(html);
 			}
 		}
@@ -100,4 +121,38 @@ export async function fetchTicketDetails(id) {
 	return $.get(
 		`/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user/details?id=${id}`
 	);
+}
+
+export async function finishTicket(id) {
+	const response = await fetch(
+		"/CHAMADOS-TI/controllers/ticketController.php/tickets/edit/finish",
+		{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				id: id,
+			}),
+		}
+	);
+
+	return await response.json();
+}
+
+export async function reopenTicket(id) {
+	const response = await fetch(
+		"/CHAMADOS-TI/controllers/ticketController.php/tickets/edit/reopen",
+		{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				id: id,
+			}),
+		}
+	);
+
+	return await response.json();
 }
