@@ -12,20 +12,26 @@ $(document).ready(function () {
 				let html = "";
 				data.forEach((ticket) => {
 					html += `
-						<div class="ticket-item d-flex justify-content-between align-items-center border rounded p-3 mb-2">
-						<div class="ticket-description" style="max-width: 250px; word-wrap: break-word;">
-							<strong>${ticket.description}</strong>
-						</div>
-							<span>Status: ${ticket.status}</span>
-							<div class="d-flex gap-3">
-							<button title="Detalhes do chamado" class="btn btn-info btn-details" data-id="${ticket.id}">Detalhes</button>
-							<button title="Finalizar chamado" class="btn btn-success">Finalizar</button>
-							<button title="Editar chamado" class="btn btn-primary">Editar</button>
-							<button title="Excluir chamado" class="btn btn-danger btn-delete" data-id="${ticket.id}">Excluir</button>
-							</div>
-						</div>
+				<div class="ticket-item d-flex align-items-center border rounded p-3 mb-2" style="gap: 15px;">
+
+				<div class="ticket-description" style="flex: 0 0 250px; white-space: normal !important; word-wrap: break-word; overflow-wrap: break-word; min-width: 0;">
+					<strong>${ticket.description}</strong>
+				</div>
+
+				<div class="ticket-status" style="flex: 0 0 130px; text-align: center;">
+					<span><strong>Status</strong>: ${ticket.status}</span>
+				</div>
+
+				<div class="ticket-actions d-flex gap-3" style="flex-grow: 1; justify-content: flex-end;">
+					<button title="Detalhes do chamado" class="btn btn-info btn-details" data-id="${ticket.id}">Detalhes</button>
+					<button title="Finalizar chamado" class="btn btn-success">Finalizar</button>
+					<button title="Editar chamado" class="btn btn-primary">Editar</button>
+					<button title="Excluir chamado" class="btn btn-danger btn-delete" data-id="${ticket.id}">Excluir</button>
+				</div>
+				</div>
 					`;
 				});
+
 				container.html(html);
 			}
 		}
