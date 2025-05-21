@@ -5,6 +5,7 @@ import {
 	fetchTicketContacts,
 	fetchTicketAttachments,
 } from "/CHAMADOS-TI/assets/js/api/ticketApi.js";
+import { formatDateToBR } from "../../util/dateUtil.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	const container = document.getElementById("tickets");
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				fetchTicketAttachments(id),
 			]);
 
+			let formattedDateTicket = formatDateToBR(ticket.created_at);
 			const plainDescription = stripHtml(ticket.description);
 
 			let body = `
@@ -37,14 +39,20 @@ document.addEventListener("DOMContentLoaded", () => {
 				<li style="max-width: 550px; white-space: normal; word-wrap: break-word;"><strong>Descrição</strong>: ${plainDescription}</li>
 					<li><strong>Tipo</strong>: ${ticket.incident_type}</li>
 					<li><strong>Status</strong>: ${ticket.status}</li>
-					<li><strong>Criado em</strong>: ${ticket.created_at}</li>
+					<li><strong>Criado em</strong>: ${formattedDateTicket}</li>
 				</ul>
 
 				<h5>Histórico</h5>
 				<ul>${history
 					.map(
 						(item) =>
-							`<li><strong>Ação</strong>: ${item.action} | <strong>Mensagem</strong>: ${item.message} | <strong>Data</strong>: ${item.created_at}</li>`
+							`<li><strong>Ação</strong>: ${
+								item.action
+							} | <strong>Mensagem</strong>: ${
+								item.message
+							} | <strong>Data</strong>: ${formatDateToBR(
+								item.created_at
+							)}</li>`
 					)
 					.join("")}</ul>
 
