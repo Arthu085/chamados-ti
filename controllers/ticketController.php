@@ -168,6 +168,77 @@ try {
             }
             exit;
 
+        case 'tickets/fetch/user/history':
+            $idTicket = $_GET['id'] ?? '';
+
+            if (empty($idTicket)) {
+                echo json_encode([
+                    'success' => false,
+                    'toast' => [
+                        'message' => 'ID do chamado inválido.',
+                        'type' => 'warning'
+                    ]
+                ]);
+                exit;
+            }
+
+            $tickets = $ticketModel->fetchTicketHistory($idTicket);
+            echo json_encode($tickets);
+            break;
+
+        case 'tickets/fetch/user/contacts':
+            $idTicket = $_GET['id'] ?? '';
+
+            if (empty($idTicket)) {
+                echo json_encode([
+                    'success' => false,
+                    'toast' => [
+                        'message' => 'ID do chamado inválido.',
+                        'type' => 'warning'
+                    ]
+                ]);
+                exit;
+            }
+
+            $tickets = $ticketModel->fetchTicketContacts($idTicket);
+            echo json_encode($tickets);
+            break;
+
+        case 'tickets/fetch/user/attachments':
+            $idTicket = $_GET['id'] ?? '';
+
+            if (empty($idTicket)) {
+                echo json_encode([
+                    'success' => false,
+                    'toast' => [
+                        'message' => 'ID do chamado inválido.',
+                        'type' => 'warning'
+                    ]
+                ]);
+                exit;
+            }
+
+            $tickets = $ticketModel->fetchTicketAttachments($idTicket);
+            echo json_encode($tickets);
+            break;
+
+        case 'tickets/fetch/user/details':
+            $idTicket = $_GET['id'] ?? '';
+
+            if (empty($idTicket)) {
+                echo json_encode([
+                    'success' => false,
+                    'toast' => [
+                        'message' => 'ID do chamado inválido.',
+                        'type' => 'warning'
+                    ]
+                ]);
+                exit;
+            }
+
+            $tickets = $ticketModel->fetchTicketDetails($idTicket);
+            echo json_encode($tickets);
+            break;
 
         default:
             echo json_encode(['erro' => 'Rota inválida']);

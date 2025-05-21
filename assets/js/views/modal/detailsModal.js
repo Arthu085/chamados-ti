@@ -1,50 +1,84 @@
 import { openModal } from "/CHAMADOS-TI/assets/js/util/modalManager.js";
+import {
+	fetchTicketDetails,
+	fetchTicketHistory,
+	fetchTicketContacts,
+	fetchTicketAttachments,
+} from "/CHAMADOS-TI/assets/js/api/ticketApi.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	const container = document.getElementById("tickets");
 
-	container.addEventListener("click", (e) => {
+	container.addEventListener("click", async (e) => {
 		const btn = e.target.closest(".btn-details");
 		if (!btn) return;
 
 		const id = btn.dataset.id;
 
-		openModal({
-			title: "Detalhes do Chamado",
-			body: `Tem certeza que deseja excluir o item <strong>#${id}</strong>?`,
-			bgClass: "bg-info",
-			dialogClass: "modal-lg",
-			footerButtons: [
-				// {
-				// 	text: "Excluir",
-				// 	class: "btn btn-danger",
-				// 	onClick: () => {
-				// 		deleteTicket(id)
-				// 			.then((res) => {
-				// 				const json = typeof res === "string" ? JSON.parse(res) : res;
-				// 				if (json.toast) {
-				// 					localStorage.setItem(
-				// 						"pendingToast",
-				// 						JSON.stringify({
-				// 							message: json.toast.message,
-				// 							type: json.toast.type,
-				// 						})
-				// 					);
-				// 				}
-				// 				if (json.success) {
-				// 					const modalEl = document.getElementById("globalModal");
-				// 					const bsModal = bootstrap.Modal.getInstance(modalEl);
-				// 					bsModal.hide();
-				// 					location.reload();
-				// 				}
-				// 			})
-				// 			.catch((err) => {
-				// 				showToast("Erro ao excluir chamado.", "danger");
-				// 				console.error("Erro ao excluir chamado:", err);
-				// 			});
-				// 	},
-				// },
-			],
-		});
+		function stripHtml(html) {
+			const div = document.createElement("div");
+			div.innerHTML = html;
+			return div.textContent || div.innerText || "";
+		}
+
+		try {
+			const [ticket, history, contacts, attachments] = await Promise.all([
+				fetchTicketDetails(id),
+				fetchTicketHistory(id),
+				fetchTicketContacts(id),
+				fetchTicketAttachments(id),
+			]);
+
+			const plainDescription = stripHtml(ticket.description);
+
+			let body = `
+				<h5>Principais Detalhes</h5>
+				<ul>
+				<li style="max-width: 550px; white-space: normal; word-wrap: break-word;"><strong>Descrição</strong>: ${plainDescription}</li>
+					<li><strong>Tipo</strong>: ${ticket.incident_type}</li>
+					<li><strong>Status</strong>: ${ticket.status}</li>
+					<li><strong>Criado em</strong>: ${ticket.created_at}</li>
+				</ul>
+
+				<h5>Histórico</h5>
+				<ul>${history
+					.map(
+						(item) =>
+							`<li><strong>Ação</strong>: ${item.action} | <strong>Mensagem</strong>: ${item.message} | <strong>Data</strong>: ${item.created_at}</li>`
+					)
+					.join("")}</ul>
+
+				<h5>Contatos</h5>
+				<ul>${contacts
+					.map(
+						(c) =>
+							`<li><strong>Nome</strong>: ${c.name} | <strong>Telefone</strong>: ${c.phone} | <strong>Observação</strong>: ${c.note}</li>`
+					)
+					.join("")}</ul>
+
+				<h5>Anexos</h5>
+				<ul>${attachments
+					.map(
+						(a) =>
+							`<li><a href="/CHAMADOS-TI/uploads/${a.file_path}" target="_blank">${a.file_name}</a></li>`
+					)
+					.join("")}</ul>
+			`;
+
+			openModal({
+				title: `Detalhes do Chamado #${id}`,
+				body: body,
+				dialogClass: "modal-lg",
+				bgClass: "bg-info",
+			});
+		} catch (err) {
+			console.error("Erro ao carregar detalhes do chamado:", err);
+			openModal({
+				title: "Erro",
+				body: "Não foi possível carregar os detalhes do chamado.",
+				dialogClass: "modal-sm",
+				bgClass: "bg-danger",
+			});
+		}
 	});
 });

@@ -77,3 +77,27 @@ export function deleteTicket(id) {
 		contentType: "application/json",
 	});
 }
+
+export async function fetchTicketHistory(id) {
+	return $.get(
+		`/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user/history?id=${id}`
+	);
+}
+
+export async function fetchTicketContacts(id) {
+	return $.get(
+		`/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user/contacts?id=${id}`
+	);
+}
+
+export async function fetchTicketAttachments(id) {
+	return $.get(
+		`/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user/attachments?id=${id}`
+	);
+}
+
+export async function fetchTicketDetails(id) {
+	return $.get(
+		`/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user/details?id=${id}`
+	);
+}

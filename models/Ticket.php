@@ -121,4 +121,36 @@ class Ticket
         }
     }
 
+    public function fetchTicketHistory($idTicket)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM ticket_history WHERE ticket_id = :ticket_id');
+        $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function fetchTicketContacts($idTicket)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM ticket_contacts WHERE ticket_id = :ticket_id');
+        $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function fetchTicketAttachments($idTicket)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM ticket_attachments WHERE ticket_id = :ticket_id');
+        $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function fetchTicketDetails($idTicket)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM tickets WHERE id = :ticket_id');
+        $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
