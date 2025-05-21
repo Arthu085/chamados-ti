@@ -246,7 +246,7 @@ try {
                 $data = json_decode($input, true);
 
                 $idTicket = $data['id'] ?? '';
-                $userId = $data['user_id'] ?? '';
+                $userId = $_SESSION['user']['id'] ?? null;
 
                 if (empty($idTicket) || empty($userId)) {
                     echo json_encode([
@@ -260,7 +260,24 @@ try {
                 }
 
                 $result = $ticketModel->finishTicket($idTicket, $userId);
-                echo json_encode($result);
+
+                if (!$result['success']) {
+                    echo json_encode([
+                        'success' => false,
+                        'toast' => [
+                            'message' => 'Erro ao finalizar chamado.',
+                            'type' => 'danger'
+                        ]
+                    ]);
+                } else {
+                    echo json_encode([
+                        'success' => true,
+                        'toast' => [
+                            'message' => 'Chamado finalizado com sucesso!',
+                            'type' => 'success'
+                        ]
+                    ]);
+                }
             }
             break;
 
