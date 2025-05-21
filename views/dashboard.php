@@ -50,6 +50,6 @@ $user = checkAuth();
 </main>
 
 <script type="module" src="/CHAMADOS-TI/assets/js/api/ticketApi.js"></script>
-<script type="module" src="/CHAMADOS-TI/assets/js/views/deleteModal.js"></script>
+<script type="module" src="/CHAMADOS-TI/assets/js/views/modal/deleteModal.js"></script>
 
 <?php include 'includes/footer.php'; ?>

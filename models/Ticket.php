@@ -97,6 +97,28 @@ class Ticket
             ];
         }
     }
+    public function deleteTicket($idTicket)
+    {
+        $this->pdo->beginTransaction();
 
+        try {
+            $stmt = $this->pdo->prepare('DELETE FROM tickets WHERE id = :id');
+            $stmt->bindParam(':id', $idTicket, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $this->pdo->commit();
+
+            return [
+                'success' => true,
+                'message' => 'Chamado deletado com sucesso'
+            ];
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return [
+                'success' => false,
+                'error' => 'Erro ao deletar o chamado: ' . $e->getMessage()
+            ];
+        }
+    }
 
 }

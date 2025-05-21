@@ -13,7 +13,9 @@ $(document).ready(function () {
 				data.forEach((ticket) => {
 					html += `
 						<div class="ticket-item d-flex justify-content-between align-items-center border rounded p-3 mb-2">
-							<span><strong>${ticket.description}</strong></span>
+						<div class="ticket-description" style="max-width: 250px; word-wrap: break-word;">
+							<strong>${ticket.description}</strong>
+						</div>
 							<span>Status: ${ticket.status}</span>
 							<div class="d-flex gap-3">
 							<button title="Detalhes do chamado" class="btn btn-info">Detalhes</button>
@@ -63,6 +65,15 @@ export function sendTicket(data) {
 		url: "/CHAMADOS-TI/controllers/ticketController.php/tickets/create",
 		type: "POST",
 		data: JSON.stringify(data),
+		contentType: "application/json",
+	});
+}
+
+export function deleteTicket(id) {
+	return $.ajax({
+		url: "/CHAMADOS-TI/controllers/ticketController.php/tickets/delete",
+		type: "DELETE",
+		data: JSON.stringify({ id }),
 		contentType: "application/json",
 	});
 }
