@@ -18,7 +18,7 @@ $(document).ready(function () {
 						</div>
 							<span>Status: ${ticket.status}</span>
 							<div class="d-flex gap-3">
-							<button title="Detalhes do chamado" class="btn btn-info">Detalhes</button>
+							<button title="Detalhes do chamado" class="btn btn-info btn-details" data-id="${ticket.id}">Detalhes</button>
 							<button title="Finalizar chamado" class="btn btn-success">Finalizar</button>
 							<button title="Editar chamado" class="btn btn-primary">Editar</button>
 							<button title="Excluir chamado" class="btn btn-danger btn-delete" data-id="${ticket.id}">Excluir</button>

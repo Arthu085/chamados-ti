@@ -51,5 +51,6 @@ $user = checkAuth();
 
 <script type="module" src="/CHAMADOS-TI/assets/js/api/ticketApi.js"></script>
 <script type="module" src="/CHAMADOS-TI/assets/js/views/modal/deleteModal.js"></script>
+<script type="module" src="/CHAMADOS-TI/assets/js/views/modal/detailsModal.js"></script>
 
 <?php include 'includes/footer.php'; ?>
