@@ -139,3 +139,20 @@ export async function finishTicket(id) {
 
 	return await response.json();
 }
+
+export async function reopenTicket(id) {
+	const response = await fetch(
+		"/CHAMADOS-TI/controllers/ticketController.php/tickets/edit/reopen",
+		{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				id: id,
+			}),
+		}
+	);
+
+	return await response.json();
+}

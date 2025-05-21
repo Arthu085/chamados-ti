@@ -53,5 +53,6 @@ $user = checkAuth();
 <script type="module" src="/CHAMADOS-TI/assets/js/views/modal/deleteModal.js"></script>
 <script type="module" src="/CHAMADOS-TI/assets/js/views/modal/detailsModal.js"></script>
 <script type="module" src="/CHAMADOS-TI/assets/js/views/modal/finishModal.js"></script>
+<script type="module" src="/CHAMADOS-TI/assets/js/views/modal/reopenModal.js"></script>
 
 <?php include 'includes/footer.php'; ?>

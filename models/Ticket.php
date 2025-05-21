@@ -184,4 +184,35 @@ class Ticket
         }
     }
 
+    public function reopenTicket($idTicket, $userId)
+    {
+
+        $this->pdo->beginTransaction();
+
+        try {
+            $stmt = $this->pdo->prepare('UPDATE tickets SET status = "aberto" WHERE id = :id');
+            $stmt->bindParam(':id', $idTicket, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $stmt = $this->pdo->prepare('INSERT INTO ticket_history (ticket_id, user_id, action, message) VALUES (:ticket_id, :user_id, "reabertura", "reabriu o chamado")');
+            $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $this->pdo->commit();
+
+            return [
+                'success' => true,
+                'message' => 'Chamado reaberto com sucesso'
+            ];
+
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return [
+                'success' => false,
+                'error' => 'Erro ao reabrir o chamado: ' . $e->getMessage()
+            ];
+        }
+    }
+
 }
