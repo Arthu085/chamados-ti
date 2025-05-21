@@ -69,6 +69,6 @@ $user = checkAuth();
     </div>
 </main>
 
-<script type="module" src="/CHAMADOS-TI/assets/js/openTicket.js"></script>
+<script type="module" src="/CHAMADOS-TI/assets/js/views/openTicket.js"></script>
 
 <?php include '../includes/footer.php'; ?>
