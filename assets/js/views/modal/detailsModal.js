@@ -6,6 +6,7 @@ import {
 	fetchTicketAttachments,
 } from "/CHAMADOS-TI/assets/js/api/ticketApi.js";
 import { formatDateToBR } from "../../util/dateUtil.js";
+import { getMimeType } from "../../util/mimeUtil.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	const container = document.getElementById("tickets");
@@ -65,13 +66,28 @@ document.addEventListener("DOMContentLoaded", () => {
 					.join("")}</ul>
 
 				<h5>Anexos</h5>
-				<ul>${attachments
-					.map(
-						(a) =>
-							`<li><a href="/CHAMADOS-TI/uploads/${a.file_path}" target="_blank">${a.file_name}</a></li>`
-					)
-					.join("")}</ul>
-			`;
+				<ul>
+					${attachments
+						.map((a) => {
+							const mime = getMimeType(a.file_name);
+							const forceDownload = mime === "application/octet-stream";
+							return `
+						<li>
+							<a href="data:${mime};base64,${a.file_base64}"
+							${
+								forceDownload
+									? `download="${a.file_name}"`
+									: 'target="_blank" rel="noopener noreferrer"'
+							}>
+							${a.file_name}
+							</a>
+						</li>
+						`;
+						})
+						.join("")}
+				</ul>
+				<p>Se a imagem não carregar, recarregue a página.</p>
+				`;
 
 			openModal({
 				title: `Detalhes do Chamado #${id}`,
