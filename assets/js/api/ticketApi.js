@@ -12,7 +12,7 @@ $(document).ready(function () {
 				let html = "";
 				data.forEach((ticket) => {
 					let actionButtons = `
-					<button title="Detalhes do chamado" class="btn btn-info btn-details" data-id="${ticket.id}">Detalhes</button>
+					<button title="Detalhes do chamado" class="btn btn-info btn-details text-light" data-id="${ticket.id}">Detalhes</button>
 				`;
 					// Condição para exibir botão baseado no status
 					if (ticket.status === "aberto") {
