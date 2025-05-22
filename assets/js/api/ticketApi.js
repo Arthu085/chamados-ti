@@ -26,7 +26,7 @@ $(document).ready(function () {
 					}
 
 					actionButtons += `
-					<button title="Editar chamado" class="btn btn-primary btn-edit">Editar</button>
+					<button title="Editar chamado" class="btn btn-primary btn-edit" data-id="${ticket.id}">Editar</button>
 					<button title="Excluir chamado" class="btn btn-danger btn-delete" data-id="${ticket.id}">Excluir</button>
 				`;
 

@@ -341,9 +341,38 @@ try {
                     exit;
                 }
 
-                // Remove o ID do array de dados para evitar conflito
                 unset($data['id']);
 
+                // Buscar dados atuais do chamado
+                $currentData = $ticketModel->fetchTicketDetails($idTicket);
+
+                // Verificar alterações
+                $hasMessage = isset($data['message']) && trim($data['message']) !== '';
+                $hasContact = isset($data['contact']) && is_array($data['contact']) && count($data['contact']) > 0;
+                $hasAttachment = isset($data['attachment']) && is_array($data['attachment']) && count($data['attachment']) > 0;
+
+                $changed = false;
+
+                if (
+                    (isset($data['description']) && $data['description'] !== $currentData['description']) ||
+                    (isset($data['incident_type']) && $data['incident_type'] !== $currentData['incident_type']) ||
+                    $hasMessage || $hasContact || $hasAttachment
+                ) {
+                    $changed = true;
+                }
+
+                if (!$changed) {
+                    echo json_encode([
+                        'success' => false,
+                        'toast' => [
+                            'message' => 'Nenhuma alteração detectada no chamado.',
+                            'type' => 'info'
+                        ]
+                    ]);
+                    exit;
+                }
+
+                // Atualizar chamado
                 $result = $ticketModel->editTicket($idTicket, $userId, $data);
 
                 if (!$result['success']) {

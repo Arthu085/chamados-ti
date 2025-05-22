@@ -217,13 +217,6 @@ class Ticket
 
     public function editTicket($idTicket, $userId, array $data)
     {
-        if (empty($data)) {
-            return [
-                'success' => false,
-                'error' => 'Nenhum campo para atualizar.'
-            ];
-        }
-
         $this->pdo->beginTransaction();
 
         try {
@@ -259,7 +252,7 @@ class Ticket
             }
 
             // Nova observação
-            if (isset($data['message'])) {
+            if (isset($data['message']) && trim($data['message']) !== '') {
                 $stmt = $this->pdo->prepare('
                 INSERT INTO ticket_history (ticket_id, user_id, action, message)
                 VALUES (:ticket_id, :user_id, "nova observação", :message)
@@ -283,6 +276,13 @@ class Ticket
                     $stmtContact->bindParam(':note', $contact['note'], PDO::PARAM_STR);
                     $stmtContact->execute();
                 }
+                $stmt = $this->pdo->prepare('
+                INSERT INTO ticket_history (ticket_id, user_id, action, message)
+                VALUES (:ticket_id, :user_id, "atualização", "atualizou os contatos do chamado")
+            ');
+                $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+                $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+                $stmt->execute();
             }
 
             // Adicionar anexos
@@ -297,9 +297,17 @@ class Ticket
                     $stmtAttachment->bindParam(':file_base64', $attachment['base64'], PDO::PARAM_STR);
                     $stmtAttachment->execute();
                 }
+
+                $stmt = $this->pdo->prepare('
+                INSERT INTO ticket_history (ticket_id, user_id, action, message)
+                VALUES (:ticket_id, :user_id, "atualização", "atualizou os anexos do chamado")
+            ');
+                $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+                $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+                $stmt->execute();
             }
 
-            // Atualizar campos da tabela `tickets`, se houver
+            // Atualizar campos na tabela de chamados
             if (!empty($fields)) {
                 $sql = 'UPDATE tickets SET ' . implode(', ', $fields) . ' WHERE id = :id';
                 $stmt = $this->pdo->prepare($sql);
@@ -323,5 +331,6 @@ class Ticket
             ];
         }
     }
+
 
 }
