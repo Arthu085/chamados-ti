@@ -163,7 +163,7 @@ class Ticket
             $stmt->bindParam(':id', $idTicket, PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt = $this->pdo->prepare('INSERT INTO ticket_history (ticket_id, user_id, action, message) VALUES (:ticket_id, :user_id, "finalizacao", "finalizou o chamado")');
+            $stmt = $this->pdo->prepare('INSERT INTO ticket_history (ticket_id, user_id, action, message) VALUES (:ticket_id, :user_id, "finalização", "finalizou o chamado")');
             $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
             $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
             $stmt->execute();
@@ -211,6 +211,115 @@ class Ticket
             return [
                 'success' => false,
                 'error' => 'Erro ao reabrir o chamado: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function editTicket($idTicket, $userId, array $data)
+    {
+        if (empty($data)) {
+            return [
+                'success' => false,
+                'error' => 'Nenhum campo para atualizar.'
+            ];
+        }
+
+        $this->pdo->beginTransaction();
+
+        try {
+            $fields = [];
+            $params = [':id' => $idTicket];
+
+            // Atualizar descrição
+            if (isset($data['description'])) {
+                $fields[] = 'description = :description';
+                $params[':description'] = $data['description'];
+
+                $stmt = $this->pdo->prepare('
+                INSERT INTO ticket_history (ticket_id, user_id, action, message)
+                VALUES (:ticket_id, :user_id, "atualização", "atualizou a descrição do chamado")
+            ');
+                $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+                $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+
+            // Atualizar tipo de incidente
+            if (isset($data['incident_type'])) {
+                $fields[] = 'incident_type = :incident_type';
+                $params[':incident_type'] = $data['incident_type'];
+
+                $stmt = $this->pdo->prepare('
+                INSERT INTO ticket_history (ticket_id, user_id, action, message)
+                VALUES (:ticket_id, :user_id, "atualização", "atualizou o tipo de incidente do chamado")
+            ');
+                $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+                $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+
+            // Nova observação
+            if (isset($data['message'])) {
+                $stmt = $this->pdo->prepare('
+                INSERT INTO ticket_history (ticket_id, user_id, action, message)
+                VALUES (:ticket_id, :user_id, "nova observação", :message)
+            ');
+                $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+                $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+                $stmt->bindParam(':message', $data['message'], PDO::PARAM_STR);
+                $stmt->execute();
+            }
+
+            // Adicionar contatos
+            if (isset($data['contact']) && is_array($data['contact'])) {
+                $stmtContact = $this->pdo->prepare('
+                INSERT INTO ticket_contacts (ticket_id, name, phone, note)
+                VALUES (:ticket_id, :name, :phone, :note)
+            ');
+                foreach ($data['contact'] as $contact) {
+                    $stmtContact->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+                    $stmtContact->bindParam(':name', $contact['name'], PDO::PARAM_STR);
+                    $stmtContact->bindParam(':phone', $contact['phone'], PDO::PARAM_STR);
+                    $stmtContact->bindParam(':note', $contact['note'], PDO::PARAM_STR);
+                    $stmtContact->execute();
+                }
+            }
+
+            // Adicionar anexos
+            if (isset($data['attachment']) && is_array($data['attachment'])) {
+                $stmtAttachment = $this->pdo->prepare('
+                INSERT INTO ticket_attachments (ticket_id, file_name, file_base64)
+                VALUES (:ticket_id, :file_name, :file_base64)
+            ');
+                foreach ($data['attachment'] as $attachment) {
+                    $stmtAttachment->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
+                    $stmtAttachment->bindParam(':file_name', $attachment['file_name'], PDO::PARAM_STR);
+                    $stmtAttachment->bindParam(':file_base64', $attachment['base64'], PDO::PARAM_STR);
+                    $stmtAttachment->execute();
+                }
+            }
+
+            // Atualizar campos da tabela `tickets`, se houver
+            if (!empty($fields)) {
+                $sql = 'UPDATE tickets SET ' . implode(', ', $fields) . ' WHERE id = :id';
+                $stmt = $this->pdo->prepare($sql);
+                foreach ($params as $key => $value) {
+                    $stmt->bindValue($key, $value);
+                }
+                $stmt->execute();
+            }
+
+            $this->pdo->commit();
+
+            return [
+                'success' => true,
+                'message' => 'Chamado atualizado com sucesso'
+            ];
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return [
+                'success' => false,
+                'error' => 'Erro ao atualizar o chamado: ' . $e->getMessage()
             ];
         }
     }

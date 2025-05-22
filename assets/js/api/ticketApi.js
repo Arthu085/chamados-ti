@@ -26,7 +26,7 @@ $(document).ready(function () {
 					}
 
 					actionButtons += `
-					<button title="Editar chamado" class="btn btn-primary">Editar</button>
+					<button title="Editar chamado" class="btn btn-primary btn-edit">Editar</button>
 					<button title="Excluir chamado" class="btn btn-danger btn-delete" data-id="${ticket.id}">Excluir</button>
 				`;
 
@@ -151,6 +151,21 @@ export async function reopenTicket(id) {
 			body: JSON.stringify({
 				id: id,
 			}),
+		}
+	);
+
+	return await response.json();
+}
+
+export async function editTicket(data) {
+	const response = await fetch(
+		"/CHAMADOS-TI/controllers/ticketController.php/tickets/edit",
+		{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
 		}
 	);
 
