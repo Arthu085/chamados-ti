@@ -1,5 +1,35 @@
 input.form-control,
-select.form-select {
-	border: 1px solid #000000;
-	transition: border-color 0.3s ease-in-out;
+select.form-select,
+textarea.form-control {
+	border: 1px solid #000000 !important;
+	transition: border-color 0.3s ease-in-out !important;
+}
+
+.menu-icon {
+	transition: filter 0.3s ease;
+}
+
+.menu-icon:hover {
+	filter: invert(100%);
+}
+
+.side-bar-width {
+	width: 200px !important;
+}
+
+.hover-link:hover {
+	background-color: rgba(255, 255, 255, 0.1); /* leve destaque */
+	border-radius: 0.375rem; /* opcional: cantos arredondados */
+}
+
+.logout-icon {
+	filter: invert(1);
+	width: 20%;
+	height: 20%;
+}
+
+.logout-icon-mini {
+	filter: invert(1);
+	width: 30%;
+	height: 30%;
 }
