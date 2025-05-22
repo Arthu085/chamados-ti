@@ -4,7 +4,9 @@ export function openModal({
 	footerButtons = [],
 	dialogClass = "",
 	bgClass = "",
+	onShown = null,
 }) {
+	const modalEl = document.getElementById("globalModal");
 	const modalTitle = document.getElementById("globalModalLabel");
 	const modalBody = document.getElementById("globalModalBody");
 	const modalFooter = document.getElementById("globalModalFooter");
@@ -40,5 +42,16 @@ export function openModal({
 	});
 
 	const modal = new bootstrap.Modal(document.getElementById("globalModal"));
+
+	if (typeof onShown === "function") {
+		modalEl.addEventListener(
+			"shown.bs.modal",
+			() => {
+				onShown();
+			},
+			{ once: true } // Garante que roda só uma vez por exibição
+		);
+	}
+
 	modal.show();
 }
