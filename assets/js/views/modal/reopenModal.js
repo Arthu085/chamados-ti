@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		openModal({
 			title: "Reabrir chamado",
-			body: `Tem certeza que deseja reabrir o item <strong>#${id}</strong>?`,
+			body: `Tem certeza que deseja reabrir o chamado <strong>#${id}</strong>?`,
 			bgClass: "bg-warning",
 			footerButtons: [
 				{

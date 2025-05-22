@@ -10,7 +10,7 @@ class Ticket
 
     public function fetchTicketByUser($userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM tickets WHERE user_id = :user_id');
+        $stmt = $this->pdo->prepare('SELECT * FROM tickets WHERE user_id = :user_id ORDER BY id DESC');
         $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

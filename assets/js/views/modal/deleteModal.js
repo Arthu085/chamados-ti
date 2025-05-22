@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		openModal({
 			title: "Confirmar exclusão",
-			body: `Tem certeza que deseja excluir o item <strong>#${id}</strong>?`,
+			body: `Tem certeza que deseja excluir o chamado <strong>#${id}</strong>?`,
 			bgClass: "bg-danger",
 			footerButtons: [
 				{
