@@ -37,23 +37,24 @@ document.addEventListener("DOMContentLoaded", () => {
 			let body = `
 				<h5>Principais Detalhes</h5>
 				<ul>
-				<li style="max-width: 550px; white-space: normal; word-wrap: break-word;"><strong>Descrição</strong>: ${plainDescription}</li>
-					<li><strong>Tipo</strong>: ${ticket.incident_type}</li>
-					<li><strong>Status</strong>: ${ticket.status}</li>
-					<li><strong>Criado em</strong>: ${formattedDateTicket}</li>
+					<li class="mb-2" style="max-width: 550px; white-space: normal; word-wrap: break-word;"><strong>Descrição</strong>: ${plainDescription}</li>
+					<li class="mb-2"><strong>Tipo</strong>: ${ticket.incident_type}</li>
+					<li class="mb-2"><strong>Status</strong>: ${ticket.status}</li>
+					<li class="mb-2"><strong>Criado em</strong>: ${formattedDateTicket}</li>
 				</ul>
 
 				<h5>Histórico</h5>
 				<ul>${history
 					.map(
 						(item) =>
-							`<li><strong>Ação</strong>: ${
+							`<li class="mb-2"><strong>Ação</strong>: ${
 								item.action
 							} | <strong>Mensagem</strong>: ${
 								item.message
 							} | <strong>Data</strong>: ${formatDateToBR(
 								item.created_at
-							)}</li>`
+							)} | <strong>Usuário</strong>: ${item.name} ${item.last_name}
+							</li>`
 					)
 					.join("")}</ul>
 
@@ -61,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				<ul>${contacts
 					.map(
 						(c) =>
-							`<li><strong>Nome</strong>: ${c.name} | <strong>Telefone</strong>: ${c.phone} | <strong>Observação</strong>: ${c.note}</li>`
+							`<li class="mb-2"><strong>Nome</strong>: ${c.name} | <strong>Telefone</strong>: ${c.phone} | <strong>Observação</strong>: ${c.note}</li>`
 					)
 					.join("")}</ul>
 
@@ -72,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 							const mime = getMimeType(a.file_name);
 							const forceDownload = mime === "application/octet-stream";
 							return `
-						<li>
+						<li class="mb-2">
 							<a href="data:${mime};base64,${a.file_base64}"
 							${
 								forceDownload
@@ -92,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			openModal({
 				title: `Detalhes do Chamado #${id}`,
 				body: body,
-				dialogClass: "modal-lg",
+				dialogClass: "modal-xl",
 				bgClass: "bg-info",
 			});
 		} catch (err) {

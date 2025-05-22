@@ -18,6 +18,7 @@ $(document).ready(function () {
 					if (ticket.status === "aberto") {
 						actionButtons += `
 						<button title="Finalizar chamado" class="btn btn-success btn-finish" data-id="${ticket.id}">Finalizar</button>
+						<button title="Editar chamado" class="btn btn-primary btn-edit" data-id="${ticket.id}">Editar</button>
 					`;
 					} else if (ticket.status === "finalizado") {
 						actionButtons += `
@@ -26,7 +27,6 @@ $(document).ready(function () {
 					}
 
 					actionButtons += `
-					<button title="Editar chamado" class="btn btn-primary btn-edit" data-id="${ticket.id}">Editar</button>
 					<button title="Excluir chamado" class="btn btn-danger btn-delete" data-id="${ticket.id}">Excluir</button>
 				`;
 

@@ -123,7 +123,7 @@ class Ticket
 
     public function fetchTicketHistory($idTicket)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM ticket_history WHERE ticket_id = :ticket_id');
+        $stmt = $this->pdo->prepare('SELECT a.*, b.name, b.last_name FROM ticket_history a INNER JOIN users b ON a.user_id = b.id WHERE ticket_id = :ticket_id');
         $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
