@@ -323,75 +323,128 @@ try {
             break;
 
         case 'tickets/edit':
-            if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-                $input = file_get_contents('php://input');
-                $data = json_decode($input, true);
+            try {
+                if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                    $input = file_get_contents('php://input');
+                    $data = json_decode($input, true);
 
-                $idTicket = $data['id'] ?? '';
-                $userId = $_SESSION['user']['id'] ?? null;
+                    if (json_last_error() !== JSON_ERROR_NONE) {
+                        http_response_code(400);
+                        echo json_encode([
+                            'success' => false,
+                            'toast' => [
+                                'message' => 'Dados inválidos enviados.',
+                                'type' => 'danger'
+                            ]
+                        ]);
+                        exit;
+                    }
 
-                if (empty($idTicket) || empty($userId)) {
-                    echo json_encode([
-                        'success' => false,
-                        'toast' => [
-                            'message' => 'ID do chamado ou usuário inválido.',
-                            'type' => 'warning'
-                        ]
-                    ]);
-                    exit;
-                }
+                    $idTicket = $data['id'] ?? '';
+                    $userId = $_SESSION['user']['id'] ?? null;
 
-                unset($data['id']);
+                    if (empty($idTicket) || empty($userId)) {
+                        http_response_code(400);
+                        echo json_encode([
+                            'success' => false,
+                            'toast' => [
+                                'message' => 'ID do chamado ou usuário inválido.',
+                                'type' => 'warning'
+                            ]
+                        ]);
+                        exit;
+                    }
 
-                // Buscar dados atuais do chamado
-                $currentData = $ticketModel->fetchTicketDetails($idTicket);
+                    unset($data['id']);
 
-                // Verificar alterações
-                $hasMessage = isset($data['message']) && trim($data['message']) !== '';
-                $hasContact = isset($data['contact']) && is_array($data['contact']) && count($data['contact']) > 0;
-                $hasAttachment = isset($data['attachment']) && is_array($data['attachment']) && count($data['attachment']) > 0;
+                    // Buscar dados atuais do chamado
+                    $current = $ticketModel->fetchTicketDetails($idTicket);
 
-                $changed = false;
+                    if (!$current) {
+                        http_response_code(404);
+                        echo json_encode([
+                            'success' => false,
+                            'toast' => [
+                                'message' => 'Chamado não encontrado.',
+                                'type' => 'danger'
+                            ]
+                        ]);
+                        exit;
+                    }
 
-                if (
-                    (isset($data['description']) && $data['description'] !== $currentData['description']) ||
-                    (isset($data['incident_type']) && $data['incident_type'] !== $currentData['incident_type']) ||
-                    $hasMessage || $hasContact || $hasAttachment
-                ) {
-                    $changed = true;
-                }
+                    // Normalizar campos
+                    $newDescription = trim(strip_tags($data['description'] ?? ''));
+                    $oldDescription = trim(strip_tags($current['description'] ?? ''));
 
-                if (!$changed) {
-                    echo json_encode([
-                        'success' => false,
-                        'toast' => [
-                            'message' => 'Nenhuma alteração detectada no chamado.',
-                            'type' => 'info'
-                        ]
-                    ]);
-                    exit;
-                }
+                    $newIncidentType = trim($data['incident_type'] ?? '');
+                    $oldIncidentType = trim($current['incident_type'] ?? '');
 
-                // Atualizar chamado
-                $result = $ticketModel->editTicket($idTicket, $userId, $data);
+                    $hasChangedDescription = $newDescription !== $oldDescription;
+                    $hasChangedIncidentType = $newIncidentType !== $oldIncidentType;
 
-                if (!$result['success']) {
-                    echo json_encode([
-                        'success' => false,
-                        'toast' => [
-                            'message' => $result['error'] ?? 'Erro ao atualizar chamado.',
-                            'type' => 'danger'
-                        ]
-                    ]);
+                    $hasMessage = isset($data['message']) && trim($data['message']) !== '';
+                    $hasContact = isset($data['contact']) && is_array($data['contact']) && count($data['contact']) > 0;
+                    $hasAttachment = isset($data['attachment']) && is_array($data['attachment']) && count($data['attachment']) > 0;
+
+                    // Se nada foi alterado, retorna aviso
+                    if (
+                        !$hasChangedDescription &&
+                        !$hasChangedIncidentType &&
+                        !$hasMessage &&
+                        !$hasContact &&
+                        !$hasAttachment
+                    ) {
+                        echo json_encode([
+                            'success' => false,
+                            'toast' => [
+                                'message' => 'Nenhuma alteração detectada no chamado.',
+                                'type' => 'info'
+                            ]
+                        ]);
+                        exit;
+                    }
+
+                    // Salvar alterações no banco
+                    $result = $ticketModel->editTicket($idTicket, $userId, $data);
+
+                    if ($result['success']) {
+                        echo json_encode([
+                            'success' => true,
+                            'toast' => [
+                                'message' => 'Chamado atualizado com sucesso!',
+                                'type' => 'success'
+                            ]
+                        ]);
+                    } else {
+                        http_response_code(400);
+                        echo json_encode([
+                            'success' => false,
+                            'toast' => [
+                                    'message' => $result['error'] ?? 'Erro ao atualizar chamado.',
+                                    'type' => 'danger'
+                                ]
+                        ]);
+                    }
                 } else {
+                    http_response_code(405);
                     echo json_encode([
-                        'success' => true,
+                        'success' => false,
                         'toast' => [
-                            'message' => $result['message'] ?? 'Chamado atualizado com sucesso!',
-                            'type' => 'success'
-                        ]
+                                'message' => 'Método não permitido.',
+                                'type' => 'danger'
+                            ]
                     ]);
                 }
+            } catch (Exception $e) {
+                http_response_code(500);
+                echo json_encode([
+                    'success' => false,
+                    'toast' => [
+                            'message' => 'Erro interno no servidor: ' . $e->getMessage(),
+                            'type' => 'danger'
+                        ],
+                    'error' => $e->getMessage() // Apenas para desenvolvimento
+                ]);
             }
             break;
 

@@ -179,21 +179,25 @@ document.addEventListener("DOMContentLoaded", () => {
 									);
 								}
 
-								if (res.success) {
-									const modalEl = document.getElementById("globalModal");
-									const bsModal = bootstrap.Modal.getInstance(modalEl);
-									bsModal.hide();
+								const modalEl = document.getElementById("globalModal");
+								const bsModal = bootstrap.Modal.getInstance(modalEl);
 
+								if (res.success) {
+									bsModal.hide();
 									location.reload();
+								} else if (
+									res.success === false &&
+									res.toast?.type === "info"
+								) {
+									showToast(res.toast.message, res.toast.type);
 								}
 							} catch (err) {
-								showToast("Erro ao editar chamado.", "danger");
-								console.error("Erro:", err);
+								console.error("Erro ao editar chamado:", err);
+								showToast(err.message || "Erro ao editar chamado", "danger");
 							}
 						},
 					},
 				],
-
 				onShown: () => {
 					$("#description").summernote({
 						height: 100,
