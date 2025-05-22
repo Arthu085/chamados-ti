@@ -220,11 +220,17 @@ class Ticket
         $this->pdo->beginTransaction();
 
         try {
+            // Buscar dados atuais do chamado
+            $stmt = $this->pdo->prepare('SELECT description, incident_type FROM tickets WHERE id = :id');
+            $stmt->bindParam(':id', $idTicket, PDO::PARAM_INT);
+            $stmt->execute();
+            $current = $stmt->fetch(PDO::FETCH_ASSOC);
+
             $fields = [];
             $params = [':id' => $idTicket];
 
             // Atualizar descrição
-            if (isset($data['description'])) {
+            if (isset($data['description']) && $data['description'] !== $current['description']) {
                 $fields[] = 'description = :description';
                 $params[':description'] = $data['description'];
 
@@ -238,7 +244,7 @@ class Ticket
             }
 
             // Atualizar tipo de incidente
-            if (isset($data['incident_type'])) {
+            if (isset($data['incident_type']) && $data['incident_type'] !== $current['incident_type']) {
                 $fields[] = 'incident_type = :incident_type';
                 $params[':incident_type'] = $data['incident_type'];
 
@@ -250,6 +256,7 @@ class Ticket
                 $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
                 $stmt->execute();
             }
+
 
             // Nova observação
             if (isset($data['message']) && trim($data['message']) !== '') {
