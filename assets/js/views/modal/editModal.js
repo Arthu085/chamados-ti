@@ -43,13 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
 				fetchTicketAttachments(id),
 			]);
 
-			const cleanDescription = stripHtml(ticket.description);
-
 			const formHtml = `
 				<form id="editTicketForm">
 					<div class="mb-3">
 						<label for="description" class="form-label">Descrição</label>
-						<textarea class="form-control" id="description" name="description">${cleanDescription}</textarea>
+						<textarea class="form-control" id="description" name="description">${
+							ticket.description
+						}</textarea>
 					</div>
 					<div class="mb-3">
 						<label for="incident_type" class="form-label">Tipo de Incidente</label>
