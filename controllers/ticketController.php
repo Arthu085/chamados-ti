@@ -420,9 +420,9 @@ try {
                         echo json_encode([
                             'success' => false,
                             'toast' => [
-                                    'message' => $result['error'] ?? 'Erro ao atualizar chamado.',
-                                    'type' => 'danger'
-                                ]
+                                'message' => $result['error'] ?? 'Erro ao atualizar chamado.',
+                                'type' => 'danger'
+                            ]
                         ]);
                     }
                 } else {
@@ -430,9 +430,9 @@ try {
                     echo json_encode([
                         'success' => false,
                         'toast' => [
-                                'message' => 'Método não permitido.',
-                                'type' => 'danger'
-                            ]
+                            'message' => 'Método não permitido.',
+                            'type' => 'danger'
+                        ]
                     ]);
                 }
             } catch (Exception $e) {
@@ -440,12 +440,17 @@ try {
                 echo json_encode([
                     'success' => false,
                     'toast' => [
-                            'message' => 'Erro interno no servidor: ' . $e->getMessage(),
-                            'type' => 'danger'
-                        ],
+                        'message' => 'Erro interno no servidor: ' . $e->getMessage(),
+                        'type' => 'danger'
+                    ],
                     'error' => $e->getMessage() // Apenas para desenvolvimento
                 ]);
             }
+            break;
+
+        case 'tickets/fetch':
+            $tickets = $ticketModel->fetchAllTickets();
+            echo json_encode($tickets);
             break;
 
         default:

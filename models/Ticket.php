@@ -339,5 +339,10 @@ class Ticket
         }
     }
 
-
+    public function fetchAllTickets()
+    {
+        $stmt = $this->pdo->prepare('SELECT a.id, a.description, a.created_at, a.status, b.name, b.last_name FROM tickets a INNER JOIN users b ON a.user_id = b.id');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
