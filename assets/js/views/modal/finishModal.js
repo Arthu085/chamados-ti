@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		openModal({
 			title: "Finalizar chamado",
-			body: `Tem certeza que deseja finalizar o chamadao <strong>#${id}</strong>?`,
+			body: `Tem certeza que deseja finalizar o chamado <strong>#${id}</strong>?`,
 			bgClass: "bg-success",
 			footerButtons: [
 				{
