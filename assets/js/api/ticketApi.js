@@ -2,7 +2,7 @@ import { formatDateToBR } from "../util/dateUtil.js";
 
 $(document).ready(function () {
 	$.get(
-		"/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user",
+		"/CHAMADOS-TI/controllers/ticket/fetchController.php/tickets/fetch/user",
 		function (data) {
 			const container = $("#tickets");
 
@@ -57,7 +57,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
 	$.get(
-		"/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/open",
+		"/CHAMADOS-TI/controllers/ticket/fetchController.php/tickets/fetch/open",
 		function (data) {
 			const container = $("#count-open");
 			if (data.erro) {
@@ -71,7 +71,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
 	$.get(
-		"/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/close",
+		"/CHAMADOS-TI/controllers/ticket/fetchController.php/tickets/fetch/close",
 		function (data) {
 			const container = $("#count-close");
 			if (data.erro) {
@@ -85,7 +85,7 @@ $(document).ready(function () {
 
 export function sendTicket(data) {
 	return $.ajax({
-		url: "/CHAMADOS-TI/controllers/ticketController.php/tickets/create",
+		url: "/CHAMADOS-TI/controllers/ticket/createController.php/tickets/create",
 		type: "POST",
 		data: JSON.stringify(data),
 		contentType: "application/json",
@@ -94,7 +94,7 @@ export function sendTicket(data) {
 
 export function deleteTicket(id) {
 	return $.ajax({
-		url: "/CHAMADOS-TI/controllers/ticketController.php/tickets/delete",
+		url: "/CHAMADOS-TI/controllers/ticket/deleteController.php/tickets/delete",
 		type: "DELETE",
 		data: JSON.stringify({ id }),
 		contentType: "application/json",
@@ -103,31 +103,31 @@ export function deleteTicket(id) {
 
 export async function fetchTicketHistory(id) {
 	return $.get(
-		`/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user/history?id=${id}`
+		`/CHAMADOS-TI/controllers/ticket/fetchController.php/tickets/fetch/user/history?id=${id}`
 	);
 }
 
 export async function fetchTicketContacts(id) {
 	return $.get(
-		`/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user/contacts?id=${id}`
+		`/CHAMADOS-TI/controllers/ticket/fetchController.php/tickets/fetch/user/contacts?id=${id}`
 	);
 }
 
 export async function fetchTicketAttachments(id) {
 	return $.get(
-		`/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user/attachments?id=${id}`
+		`/CHAMADOS-TI/controllers/ticket/fetchController.php/tickets/fetch/user/attachments?id=${id}`
 	);
 }
 
 export async function fetchTicketDetails(id) {
 	return $.get(
-		`/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch/user/details?id=${id}`
+		`/CHAMADOS-TI/controllers/ticket/fetchController.php/tickets/fetch/user/details?id=${id}`
 	);
 }
 
 export async function finishTicket(id) {
 	const response = await fetch(
-		"/CHAMADOS-TI/controllers/ticketController.php/tickets/edit/finish",
+		"/CHAMADOS-TI/controllers/ticket/editController.php/tickets/edit/finish",
 		{
 			method: "PUT",
 			headers: {
@@ -144,7 +144,7 @@ export async function finishTicket(id) {
 
 export async function reopenTicket(id) {
 	const response = await fetch(
-		"/CHAMADOS-TI/controllers/ticketController.php/tickets/edit/reopen",
+		"/CHAMADOS-TI/controllers/ticket/editController.php/tickets/edit/reopen",
 		{
 			method: "PUT",
 			headers: {
@@ -161,7 +161,7 @@ export async function reopenTicket(id) {
 
 export async function editTicket(data) {
 	const response = await fetch(
-		"/CHAMADOS-TI/controllers/ticketController.php/tickets/edit",
+		"/CHAMADOS-TI/controllers/ticket/editController.php/tickets/edit",
 		{
 			method: "PUT",
 			headers: {
@@ -176,7 +176,7 @@ export async function editTicket(data) {
 
 $(document).ready(function () {
 	$.get(
-		"/CHAMADOS-TI/controllers/ticketController.php/tickets/fetch",
+		"/CHAMADOS-TI/controllers/ticket/fetchController.php/tickets/fetch",
 		function (data) {
 			const container = $("#tickets-list");
 
