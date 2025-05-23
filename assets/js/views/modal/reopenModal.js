@@ -1,5 +1,5 @@
 import { openModal } from "/CHAMADOS-TI/assets/js/util/modalManager.js";
-import { showToast } from "/CHAMADOS-TI/assets/js/util/toast.js";
+import { showToast } from "/CHAMADOS-TI/assets/js/util/toastManager.js";
 import { reopenTicket } from "/CHAMADOS-TI/assets/js/api/ticketApi.js";
 
 // Espera o DOM carregar

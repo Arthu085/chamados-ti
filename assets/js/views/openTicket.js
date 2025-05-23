@@ -1,5 +1,5 @@
 import { sendTicket } from "../api/ticketApi.js";
-import { showToast } from "../util/toast.js";
+import { showToast } from "../util/toastManager.js";
 
 $(document).ready(function () {
 	// Inicializa Summernote

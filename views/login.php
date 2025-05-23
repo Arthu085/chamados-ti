@@ -35,6 +35,6 @@ session_start();
     <p class="mt-2">Não possui uma conta? <a href="register.php">Cadastrar</a></p>
 </main>
 
-<script type="module" src="/chamados-ti/assets/js/api/authApi.js"></script>
+<script type="module" src="/CHAMADOS-TI/assets/js/views/loginHandler.js"></script>
 
 <?php include 'includes/footer.php'; ?>

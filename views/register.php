@@ -108,6 +108,6 @@ session_start();
     <p class="mt-2">Já possui uma conta? <a href="login.php">Entrar</a></p>
 </main>
 
-<script type="module" src="/CHAMADOS-TI/assets/js/api/authApi.js"></script>
+<script type="module" src="/CHAMADOS-TI/assets/js/views/registerHandler.js"></script>
 
 <?php include 'includes/footer.php'; ?>
