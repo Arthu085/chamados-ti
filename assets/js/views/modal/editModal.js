@@ -1,3 +1,4 @@
+import { formatPhoneNumber } from "../../util/numberMask.js";
 import { openModal } from "/CHAMADOS-TI/assets/js/util/modalManager.js";
 import { showToast } from "/CHAMADOS-TI/assets/js/util/toastManager.js";
 import {
@@ -66,7 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <ul>${contacts
 													.map(
 														(c) =>
-															`<li><strong>Nome</strong>: ${c.name} | <strong>Telefone</strong>: ${c.phone} | <strong>Observação</strong>: ${c.note}</li>`
+															`<li><strong>Nome</strong>: ${
+																c.name
+															} | <strong>Telefone</strong>: ${formatPhoneNumber(
+																c.phone
+															)} | <strong>Observação</strong>: ${c.note}</li>`
 													)
 													.join("")}</ul>
 					</div>
