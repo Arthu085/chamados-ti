@@ -78,7 +78,7 @@ function register($userModel)
         respond('E-mail inválido.');
     }
 
-    if (strlen($phone_number) !== 15 || strlen($whatsapp_number) !== 15) {
+    if (strlen($phone_number) !== 11 || strlen($whatsapp_number) !== 11) {
         respond('Número de telefone e WhatsApp devem ter 15 caracteres.');
     }
 
