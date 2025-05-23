@@ -6,6 +6,7 @@ import {
 	fetchTicketAttachments,
 } from "/CHAMADOS-TI/assets/js/api/ticketApi.js";
 import { formatDateToBR } from "../../util/dateUtil.js";
+import { formatPhoneNumber } from "../../util/numberMask.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	const container = document.getElementById("tickets");
@@ -61,7 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				<ul>${contacts
 					.map(
 						(c) =>
-							`<li class="mb-2"><strong>Nome</strong>: ${c.name} | <strong>Telefone</strong>: ${c.phone} | <strong>Observação</strong>: ${c.note}</li>`
+							`<li class="mb-2"><strong>Nome</strong>: ${
+								c.name
+							} | <strong>Telefone</strong>: ${formatPhoneNumber(
+								c.phone
+							)} | <strong>Observação</strong>: ${c.note}</li>`
 					)
 					.join("")}</ul>
 

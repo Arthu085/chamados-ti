@@ -127,16 +127,19 @@ document.addEventListener("DOMContentLoaded", () => {
 									const name = item
 										.querySelector(".contact-name-edit")
 										.value.trim();
-									const phone = item
+									const phoneRaw = item
 										.querySelector(".contact-phone-edit")
 										.value.trim();
+									const phone = phoneRaw.replace(/\D/g, ""); // Remove tudo que não for dígito
 									const note = item
 										.querySelector(".contact-note-edit")
 										.value.trim();
+
 									if (name || phone || note) {
 										contacts.push({ name, phone, note });
 									}
 								});
+
 							if (contacts.length > 0) {
 								data.contact = contacts;
 							}
