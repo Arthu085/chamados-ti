@@ -44,12 +44,6 @@ $(document).ready(function () {
 			.map(function () {
 				const rawPhone = $(this).find(".contact-phone").val();
 				const cleanPhone = rawPhone.replace(/\D/g, "");
-				console.log(
-					"Telefone original:",
-					rawPhone,
-					"Telefone limpo:",
-					cleanPhone
-				);
 				return {
 					name: $(this).find(".contact-name").val(),
 					phone: cleanPhone,
