@@ -12,7 +12,7 @@ class User
 
     public function findByEmail($email)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt = $this->pdo->prepare("SELECT id, name, last_name, birth_date, email, phone_number, whatsapp_number, password, city, state, created_at FROM users WHERE email = ?");
         $stmt->execute([$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
