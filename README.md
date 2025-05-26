@@ -49,7 +49,7 @@ Este projeto é um sistema web para abertura, acompanhamento e gestão de chamad
 ## Observações Importantes
 
 - O tamanho máximo permitido para anexos é de **49MB** por arquivo.
-- Caso você utilize outra ferramentas de gerenciamento de bancos de dados e os scripts ocasionam erros, rode uma tabela por vez.
+- Caso você utilize outra ferramentas de gerenciamento de bancos de dados e os scripts ocasionarem erros, rode uma tabela por vez.
 
 ## Tecnologias Utilizadas
 
