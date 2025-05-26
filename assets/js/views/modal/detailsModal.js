@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				title: `Detalhes do Chamado #${id}`,
 				body: body,
 				dialogClass: "modal-xl",
+				titleClass: "text-dark",
 				bgClass: "bg-info",
 			});
 		} catch (err) {

@@ -22,7 +22,7 @@ export async function renderUserTickets() {
 		let html = "";
 		data.forEach((ticket) => {
 			let actionButtons = `
-				<button class="btn btn-info btn-details text-light" data-id="${ticket.id}">Detalhes</button>
+				<button class="btn btn-info btn-details" data-id="${ticket.id}">Detalhes</button>
 			`;
 
 			if (ticket.status === "aberto") {
