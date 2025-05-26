@@ -68,6 +68,9 @@ $(document).ready(function () {
 			attachments,
 		};
 
+		const $openTicketBtn = $("#openTicketBtn");
+		$openTicketBtn.prop("disabled", true).text("Carregando...");
+
 		sendTicket(data)
 			.then((res) => {
 				const json = typeof res === "string" ? JSON.parse(res) : res;
@@ -79,6 +82,9 @@ $(document).ready(function () {
 			.catch((err) => {
 				showToast("Erro no envio do chamado.", "danger");
 				console.error("Erro no envio do chamado:", err);
+			})
+			.always(() => {
+				$openTicketBtn.prop("disabled", false).text("Abrir chamado");
 			});
 	});
 

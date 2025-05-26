@@ -37,6 +37,7 @@ export function openModal({
 		const button = document.createElement("button");
 		button.className = btn.class || "btn btn-primary";
 		button.innerText = btn.text;
+		button.id = btn.id || "";
 		if (btn.onClick) button.onclick = btn.onClick;
 		modalFooter.appendChild(button);
 	});

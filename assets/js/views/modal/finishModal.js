@@ -20,7 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				{
 					text: "Finalizar",
 					class: "btn btn-success",
+					id: "finishTicketBtn",
 					onClick: () => {
+						const $finishTicketBtn = $("#finishTicketBtn");
+						$finishTicketBtn.prop("disabled", true).text("Finalizando...");
+
 						finishTicket(id)
 							.then((res) => {
 								const json = typeof res === "string" ? JSON.parse(res) : res;
@@ -46,6 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
 							.catch((err) => {
 								showToast("Erro ao excluir chamado.", "danger");
 								console.error("Erro ao excluir chamado:", err);
+							})
+							.finaly(() => {
+								$finishTicketBtn.prop("disabled", false).text("Finalizar");
 							});
 					},
 				},

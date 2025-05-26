@@ -108,7 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
 					{
 						text: "Salvar Alterações",
 						class: "btn btn-primary",
+						id: "editTicketBtn",
 						onClick: async () => {
+							const $editTicketBtn = $("#editTicketBtn");
+							$editTicketBtn.prop("disabled", true).text("Editando...");
 							const description = $("#description").summernote("code");
 							const incidentType =
 								document.getElementById("incident_type").value;
@@ -202,6 +205,10 @@ document.addEventListener("DOMContentLoaded", () => {
 							} catch (err) {
 								console.error("Erro ao editar chamado:", err);
 								showToast(err.message || "Erro ao editar chamado", "danger");
+							} finally {
+								$editTicketBtn
+									.prop("disabled", false)
+									.text("Salvar Alterações");
 							}
 						},
 					},

@@ -29,7 +29,7 @@ session_start();
                 </div>
             </div>
             <div class="col-12">
-                <button class="btn btn-success w-100" type="submit">Entrar</button>
+                <button class="btn btn-success w-100" type="submit" id="loginBtn">Entrar</button>
             </div>
         </form>
         <p class="mt-2">Não possui uma conta? <a href="register.php">Cadastrar</a></p>
