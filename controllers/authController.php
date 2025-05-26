@@ -1,76 +1,40 @@
 <?php
-session_start();
 require_once('../config/db.php');
+require_once('../models/User.php');
+require_once('../helpers/responseHelper.php');
 
-// Função para resposta JSON
-function jsonResponse($message, $type = 'info', $redirect = null)
-{
-    header('Content-Type: application/json');
-    echo json_encode([
-        'toast' => [
-            'message' => $message,
-            'type' => $type
-        ],
-        'redirect' => $redirect
-    ]);
-    exit;
-}
+$userModel = new User($pdo);
 
-// Detecta requisição AJAX
-$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-
-function respond($message, $type = 'danger', $redirect = null)
-{
-    global $isAjax;
-    if ($isAjax) {
-        jsonResponse($message, $type, $redirect);
-    } else {
-        $_SESSION['toast'] = [
-            'message' => $message,
-            'type' => $type
-        ];
-        header("Location: " . ($redirect ?? '../views/login.php'));
-        exit;
-    }
-}
-
-// Recupera ação
 $action = $_POST['action'] ?? null;
-
 if (!$action) {
     respond('Ação não especificada.');
 }
 
 switch ($action) {
     case 'login':
-        login();
+        login($userModel);
         break;
     case 'register':
-        register();
+        register($userModel);
         break;
     default:
         respond('Ação inválida.');
 }
 
-// Função de login
-function login()
+function login($userModel)
 {
-    global $pdo;
-
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    if (empty($email) || empty($password)) {
+    if (!$email || !$password) {
         respond('Preencha todos os campos.', 'warning');
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        respond('E-mail inválido.', 'danger');
+        respond('E-mail inválido.');
     }
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->execute([$email]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = $userModel->findByEmail($email);
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user'] = [
@@ -85,47 +49,50 @@ function login()
     }
 }
 
-// Função de registro
-function register()
+function register($userModel)
 {
     global $pdo;
 
-    $name = $_POST['name'] ?? '';
-    $lastname = $_POST['lastname'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $birth_date = $_POST['birth_date'] ?? '';
-    $phone_number = $_POST['phone_number'] ?? '';
-    $whatsapp_number = $_POST['whatsapp_number'] ?? '';
-    $state = $_POST['state'] ?? '';
-    $city = $_POST['city'] ?? '';
-    $password = $_POST['password'] ?? '';
-    $confirm_password = $_POST['confirm_password'] ?? '';
+    $fieldLabels = [
+        'name' => 'nome',
+        'lastname' => 'sobrenome',
+        'email' => 'e-mail',
+        'birth_date' => 'data de nascimento',
+        'phone_number' => 'número de telefone',
+        'whatsapp_number' => 'número de whatsApp',
+        'state' => 'estado',
+        'city' => 'cidade',
+        'password' => 'senha',
+        'confirm_password' => 'confirmação de senha'
+    ];
 
-    if (empty($name) || empty($lastname) || empty($email) || empty($birth_date) || empty($phone_number) || empty($whatsapp_number) || empty($state) || empty($city) || empty($password) || empty($confirm_password)) {
-        respond('Todos os campos são obrigatórios.', 'warning');
+    foreach ($fieldLabels as $field => $label) {
+        if (empty($_POST[$field])) {
+            respond("O campo {$label} é obrigatório.", 'warning');
+        }
     }
+
+    extract($_POST);
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         respond('E-mail inválido.');
     }
-    if (strlen($phone_number) !== 15) {
-        respond('O número de telefone deve ter 15 caracteres.');
+
+    if (strlen($phone_number) !== 11 || strlen($whatsapp_number) !== 11) {
+        respond('Número de telefone e WhatsApp devem ter 15 caracteres.');
     }
-    if (strlen($whatsapp_number) !== 15) {
-        respond('O número de WhatsApp deve ter 15 caracteres.');
-    }
+
     $birthDate = new DateTime($birth_date);
     $age = (new DateTime())->diff($birthDate)->y;
-    if ($age < 18 || $age < 0) {
+    if ($age < 18) {
         respond('Você precisa ter pelo menos 18 anos.');
     }
+
     if ($password !== $confirm_password) {
         respond('As senhas não coincidem.');
     }
 
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
-    $stmt->execute([$email]);
-    if ($stmt->fetchColumn() > 0) {
+    if ($userModel->findByEmail($email)) {
         respond('Este e-mail já está cadastrado.', 'warning');
     }
 
@@ -133,7 +100,19 @@ function register()
     $stmt = $pdo->prepare("INSERT INTO users (name, last_name, birth_date, email, phone_number, whatsapp_number, password, city, state)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    if ($stmt->execute([$name, $lastname, $birth_date, $email, $phone_number, $whatsapp_number, $hashedPassword, $city, $state])) {
+    $success = $stmt->execute([
+        $name,
+        $lastname,
+        $birth_date,
+        $email,
+        $phone_number,
+        $whatsapp_number,
+        $hashedPassword,
+        $city,
+        $state
+    ]);
+
+    if ($success) {
         respond('Cadastro realizado com sucesso!', 'success', '../views/login.php');
     } else {
         respond('Erro ao cadastrar. Tente novamente.');

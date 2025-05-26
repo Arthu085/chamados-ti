@@ -62,7 +62,7 @@ $user = checkAuth();
                 </div>
 
                 <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Abrir chamado</button>
+                    <button class="btn btn-primary" type="submit" id="openTicketBtn">Abrir chamado</button>
                 </div>
             </form>
         </div>

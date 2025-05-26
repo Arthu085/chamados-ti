@@ -6,7 +6,7 @@ import {
 	fetchTicketAttachments,
 } from "/CHAMADOS-TI/assets/js/api/ticketApi.js";
 import { formatDateToBR } from "../../util/dateUtil.js";
-import { getMimeType } from "../../util/mimeUtil.js";
+import { formatPhoneNumber } from "../../util/numberMask.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	const container = document.getElementById("tickets");
@@ -62,38 +62,33 @@ document.addEventListener("DOMContentLoaded", () => {
 				<ul>${contacts
 					.map(
 						(c) =>
-							`<li class="mb-2"><strong>Nome</strong>: ${c.name} | <strong>Telefone</strong>: ${c.phone} | <strong>Observação</strong>: ${c.note}</li>`
+							`<li class="mb-2"><strong>Nome</strong>: ${
+								c.name
+							} | <strong>Telefone</strong>: ${formatPhoneNumber(
+								c.phone
+							)} | <strong>Observação</strong>: ${c.note}</li>`
 					)
 					.join("")}</ul>
 
 				<h5>Anexos</h5>
 				<ul>
-					${attachments
-						.map((a) => {
-							const mime = getMimeType(a.file_name);
-							const forceDownload = mime === "application/octet-stream";
-							return `
-						<li class="mb-2">
-							<a href="data:${mime};base64,${a.file_base64}"
-							${
-								forceDownload
-									? `download="${a.file_name}"`
-									: 'target="_blank" rel="noopener noreferrer"'
-							}>
-							${a.file_name}
-							</a>
-						</li>
-						`;
-						})
-						.join("")}
+				${attachments
+					.map(
+						(a) => `
+					<li class="mb-2">
+						<a href="data:application/octet-stream;base64,${a.file_base64}" download="${a.file_name}">
+						${a.file_name}
+						</a>
+					</li>`
+					)
+					.join("")}
 				</ul>
-				<p>Se a imagem não carregar, recarregue a página.</p>
 				`;
-
 			openModal({
 				title: `Detalhes do Chamado #${id}`,
 				body: body,
 				dialogClass: "modal-xl",
+				titleClass: "text-dark",
 				bgClass: "bg-info",
 			});
 		} catch (err) {

@@ -1,5 +1,6 @@
+import { formatPhoneNumber } from "../../util/numberMask.js";
 import { openModal } from "/CHAMADOS-TI/assets/js/util/modalManager.js";
-import { showToast } from "/CHAMADOS-TI/assets/js/util/toast.js";
+import { showToast } from "/CHAMADOS-TI/assets/js/util/toastManager.js";
 import {
 	fetchTicketDetails,
 	fetchTicketContacts,
@@ -66,7 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <ul>${contacts
 													.map(
 														(c) =>
-															`<li><strong>Nome</strong>: ${c.name} | <strong>Telefone</strong>: ${c.phone} | <strong>Observação</strong>: ${c.note}</li>`
+															`<li><strong>Nome</strong>: ${
+																c.name
+															} | <strong>Telefone</strong>: ${formatPhoneNumber(
+																c.phone
+															)} | <strong>Observação</strong>: ${c.note}</li>`
 													)
 													.join("")}</ul>
 					</div>
@@ -103,7 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
 					{
 						text: "Salvar Alterações",
 						class: "btn btn-primary",
+						id: "editTicketBtn",
 						onClick: async () => {
+							const $editTicketBtn = $("#editTicketBtn");
+							$editTicketBtn.prop("disabled", true).text("Editando...");
 							const description = $("#description").summernote("code");
 							const incidentType =
 								document.getElementById("incident_type").value;
@@ -127,16 +135,19 @@ document.addEventListener("DOMContentLoaded", () => {
 									const name = item
 										.querySelector(".contact-name-edit")
 										.value.trim();
-									const phone = item
+									const phoneRaw = item
 										.querySelector(".contact-phone-edit")
 										.value.trim();
+									const phone = phoneRaw.replace(/\D/g, ""); // Remove tudo que não for dígito
 									const note = item
 										.querySelector(".contact-note-edit")
 										.value.trim();
+
 									if (name || phone || note) {
 										contacts.push({ name, phone, note });
 									}
 								});
+
 							if (contacts.length > 0) {
 								data.contact = contacts;
 							}
@@ -194,6 +205,10 @@ document.addEventListener("DOMContentLoaded", () => {
 							} catch (err) {
 								console.error("Erro ao editar chamado:", err);
 								showToast(err.message || "Erro ao editar chamado", "danger");
+							} finally {
+								$editTicketBtn
+									.prop("disabled", false)
+									.text("Salvar Alterações");
 							}
 						},
 					},

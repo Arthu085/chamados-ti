@@ -50,7 +50,6 @@ CREATE TABLE ticket_history (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-
 ALTER TABLE tickets 
 ADD COLUMN status ENUM('aberto', 'finalizado') NOT NULL DEFAULT 'aberto';
 

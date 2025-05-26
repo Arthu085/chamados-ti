@@ -1,5 +1,5 @@
 import { sendTicket } from "../api/ticketApi.js";
-import { showToast } from "../util/toast.js";
+import { showToast } from "../util/toastManager.js";
 
 $(document).ready(function () {
 	// Inicializa Summernote
@@ -42,9 +42,11 @@ $(document).ready(function () {
 
 		const contacts = $(".item-contact")
 			.map(function () {
+				const rawPhone = $(this).find(".contact-phone").val();
+				const cleanPhone = rawPhone.replace(/\D/g, "");
 				return {
 					name: $(this).find(".contact-name").val(),
-					phone: $(this).find(".contact-phone").val(),
+					phone: cleanPhone,
 					note: $(this).find(".contact-note").val(),
 				};
 			})
@@ -66,6 +68,9 @@ $(document).ready(function () {
 			attachments,
 		};
 
+		const $openTicketBtn = $("#openTicketBtn");
+		$openTicketBtn.prop("disabled", true).text("Carregando...");
+
 		sendTicket(data)
 			.then((res) => {
 				const json = typeof res === "string" ? JSON.parse(res) : res;
@@ -77,6 +82,9 @@ $(document).ready(function () {
 			.catch((err) => {
 				showToast("Erro no envio do chamado.", "danger");
 				console.error("Erro no envio do chamado:", err);
+			})
+			.always(() => {
+				$openTicketBtn.prop("disabled", false).text("Abrir chamado");
 			});
 	});
 

@@ -4,6 +4,7 @@ export function openModal({
 	footerButtons = [],
 	dialogClass = "",
 	bgClass = "",
+	titleClass = "",
 	onShown = null,
 }) {
 	const modalEl = document.getElementById("globalModal");
@@ -15,6 +16,11 @@ export function openModal({
 
 	modalTitle.innerHTML = title;
 	modalBody.innerHTML = body;
+
+	modalTitle.className = "modal-title";
+	if (titleClass) {
+		modalTitle.classList.add(...titleClass.split(" "));
+	}
 
 	// Atualiza a classe do modal-dialog dinamicamente
 	modalDialog.className = "modal-dialog"; // Reset
@@ -37,6 +43,7 @@ export function openModal({
 		const button = document.createElement("button");
 		button.className = btn.class || "btn btn-primary";
 		button.innerText = btn.text;
+		button.id = btn.id || "";
 		if (btn.onClick) button.onclick = btn.onClick;
 		modalFooter.appendChild(button);
 	});

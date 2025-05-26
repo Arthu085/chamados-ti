@@ -10,7 +10,7 @@ class Ticket
 
     public function fetchTicketByUser($userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM tickets WHERE user_id = :user_id ORDER BY id DESC');
+        $stmt = $this->pdo->prepare('SELECT id, user_id, incident_type, description, created_at, status FROM tickets WHERE user_id = :user_id ORDER BY id DESC');
         $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -18,7 +18,7 @@ class Ticket
 
     public function fetchNumberOfOpenTicketsByUser($userId)
     {
-        $stmt = $this->pdo->prepare('SELECT COUNT(*) as total FROM tickets WHERE status = "aberto" AND user_id = :user_id');
+        $stmt = $this->pdo->prepare('SELECT COUNT(id) as total FROM tickets WHERE status = "aberto" AND user_id = :user_id');
         $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -26,7 +26,7 @@ class Ticket
 
     public function fetchNumberOfCloseTicketsByUser($userId)
     {
-        $stmt = $this->pdo->prepare('SELECT COUNT(*) as total FROM tickets WHERE status = "finalizado" AND user_id = :user_id');
+        $stmt = $this->pdo->prepare('SELECT COUNT(id) as total FROM tickets WHERE status = "finalizado" AND user_id = :user_id');
         $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -123,7 +123,7 @@ class Ticket
 
     public function fetchTicketHistory($idTicket)
     {
-        $stmt = $this->pdo->prepare('SELECT a.*, b.name, b.last_name FROM ticket_history a INNER JOIN users b ON a.user_id = b.id WHERE ticket_id = :ticket_id');
+        $stmt = $this->pdo->prepare('SELECT a.id, a.ticket_id, a.user_id, a.action, a.created_at, a.message, b.name, b.last_name FROM ticket_history a INNER JOIN users b ON a.user_id = b.id WHERE ticket_id = :ticket_id');
         $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -131,7 +131,7 @@ class Ticket
 
     public function fetchTicketContacts($idTicket)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM ticket_contacts WHERE ticket_id = :ticket_id');
+        $stmt = $this->pdo->prepare('SELECT id, ticket_id, name, phone, note, created_at FROM ticket_contacts WHERE ticket_id = :ticket_id');
         $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -139,7 +139,7 @@ class Ticket
 
     public function fetchTicketAttachments($idTicket)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM ticket_attachments WHERE ticket_id = :ticket_id');
+        $stmt = $this->pdo->prepare('SELECT id, ticket_id, file_name, file_base64, uploaded_at FROM ticket_attachments WHERE ticket_id = :ticket_id');
         $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -147,7 +147,7 @@ class Ticket
 
     public function fetchTicketDetails($idTicket)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM tickets WHERE id = :ticket_id');
+        $stmt = $this->pdo->prepare('SELECT id, user_id, incident_type, description, created_at, status FROM tickets WHERE id = :ticket_id');
         $stmt->bindParam(':ticket_id', $idTicket, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);

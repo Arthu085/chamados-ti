@@ -30,6 +30,6 @@ $user = checkAuth();
     </div>
 </main>
 
-<script type="module" src="/CHAMADOS-TI/assets/js/api/ticketApi.js"></script>
+<script type="module" src="/CHAMADOS-TI/assets/js/views/listTickets.js"></script>
 
 <?php include '../includes/footer.php'; ?>
