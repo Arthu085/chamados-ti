@@ -88,12 +88,18 @@ function register($userModel)
         respond('Você precisa ter pelo menos 18 anos.');
     }
 
+    if ($password < 6) {
+        respond('A senha deve ter pelo menos 6 caracteres.');
+    }
+
     if ($password !== $confirm_password) {
         respond('As senhas não coincidem.');
     }
 
     if ($userModel->findByEmail($email)) {
-        respond('Este e-mail já está cadastrado.', 'warning');
+        respond(
+            'Este e-mail já está cadastrado.'
+        );
     }
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
