@@ -8,8 +8,8 @@ session_start();
 
 <?php include 'includes/header.php'; ?>
 
-<main class="container py-3 mt-2" style="max-width: 800px;">
-    <div class="bg-white shadow-sm rounded-3 p-4">
+<main class="container d-flex justify-content-center align-items-center py-3" style="max-width: 800px;">
+    <div class="bg-white shadow-sm rounded-3 p-4 w-100">
         <h2 class="text-center mb-4">Cadastrar</h2>
         <form id="registerForm" class="row g-3 needs-validation" novalidate>
             <div class="col-md-6">
