@@ -2,10 +2,17 @@
 
 Este projeto é um sistema web para abertura, acompanhamento e gestão de chamados técnicos de TI.
 
+## Tecnologias Utilizadas
+
+- PHP
+- MySQL
+- Bootstrap 5
+- JavaScript
+- jQuery
+
 ## Requisitos
 
 - **XAMPP** (inclui Apache, PHP e MySQL)
-- Navegador web moderno
 
 ## Instalação e Configuração
 
@@ -50,14 +57,6 @@ Este projeto é um sistema web para abertura, acompanhamento e gestão de chamad
 
 - O tamanho máximo permitido para anexos é de **49MB** por arquivo.
 - Caso você utilize outra ferramentas de gerenciamento de bancos de dados e os scripts ocasionarem erros, rode uma tabela por vez.
-
-## Tecnologias Utilizadas
-
-- PHP
-- MySQL
-- Bootstrap 5
-- JavaScript
-- jQuery
 
 ## Funcionalidades Principais
 
